@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <title>0xCRACK — مجتمع الأمن السيبراني</title>
-
-  <meta
-    name="description"
-    content="0xCRACK — مجتمع عربي للأمن السيبراني والبرمجة"
-  >
+  <meta name="description" content="0xCRACK — مجتمع عربي للأمن السيبراني والبرمجة">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -38,15 +34,12 @@
       cursor: pointer;
     }
 
-    /* NAVBAR */
-
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(5, 9, 7, 0.96);
+      background: rgba(5,9,7,.97);
       border-bottom: 1px solid #173b27;
-      backdrop-filter: blur(10px);
     }
 
     .nav-inner {
@@ -56,14 +49,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
+      gap: 15px;
     }
 
     .logo {
-      font-size: 25px;
+      font-size: 26px;
       font-weight: bold;
-      color: #fff;
-      letter-spacing: 1px;
     }
 
     .logo span {
@@ -73,7 +64,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
@@ -92,25 +83,21 @@
 
     .user-info {
       color: #00ff88;
-      font-size: 13px;
+      font-size: 12px;
       display: none;
     }
-
-    /* HERO */
 
     .hero {
       max-width: 1200px;
       margin: 30px auto 20px;
-      padding: 45px 25px;
+      padding: 50px 25px;
       text-align: center;
       border: 1px solid #143d27;
       border-radius: 16px;
       background:
-        radial-gradient(
-          circle at center,
-          rgba(0,255,136,.08),
-          transparent 55%
-        ),
+        radial-gradient(circle at center,
+        rgba(0,255,136,.08),
+        transparent 60%),
         #0a100d;
     }
 
@@ -125,26 +112,21 @@
 
     .hero p {
       color: #91a99a;
-      font-size: 16px;
     }
-
-    /* LAYOUT */
 
     .container {
       max-width: 1200px;
-      margin: 20px auto;
+      margin: auto;
       padding: 0 20px 50px;
 
       display: grid;
       grid-template-columns: 260px 1fr;
       gap: 20px;
-
-      direction: ltr;
     }
 
     .sidebar,
     .main {
-      direction: rtl;
+      min-width: 0;
     }
 
     .sidebar {
@@ -183,19 +165,10 @@
       transform: translateX(-2px);
     }
 
-    .category-btn.active {
-      color: #00ff88;
-      border-color: #00ff88;
-    }
-
-    .main {
-      min-width: 0;
-    }
-
     .section-title {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       margin-bottom: 15px;
       gap: 10px;
     }
@@ -233,11 +206,11 @@
     .topic-preview {
       color: #91a99a;
       line-height: 1.7;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
     }
 
     .topic-meta {
-      color: #647a6b;
+      color: #63796a;
       font-size: 12px;
     }
 
@@ -245,12 +218,10 @@
       background: #0b110e;
       border: 1px dashed #234d34;
       border-radius: 12px;
-      padding: 35px;
+      padding: 30px;
       text-align: center;
       color: #819589;
     }
-
-    /* BUTTONS */
 
     .primary-btn {
       background: #00ff88;
@@ -273,8 +244,6 @@
       border-radius: 8px;
     }
 
-    /* PAGES */
-
     .page-section {
       display: none;
       max-width: 1200px;
@@ -289,10 +258,6 @@
       padding: 10px 16px;
       border-radius: 8px;
       margin-bottom: 18px;
-    }
-
-    .back-btn:hover {
-      border-color: #00ff88;
     }
 
     .category-header {
@@ -391,14 +356,12 @@
       border-color: #00ff88;
     }
 
-    /* MODAL */
-
     .modal {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 999;
-      background: rgba(0,0,0,.75);
+      background: rgba(0,0,0,.78);
       align-items: center;
       justify-content: center;
       padding: 20px;
@@ -455,7 +418,6 @@
     .modal-actions {
       display: flex;
       gap: 10px;
-      justify-content: flex-start;
       margin-top: 10px;
     }
 
@@ -467,43 +429,28 @@
       border-radius: 8px;
     }
 
-    /* TOAST */
-
     #toast {
       position: fixed;
       bottom: 25px;
       right: 25px;
       z-index: 2000;
-
       background: #0b110e;
       color: #00ff88;
       border: 1px solid #00ff88;
-
       padding: 13px 18px;
       border-radius: 9px;
-
       display: none;
       max-width: 90%;
     }
-
-    /* MOBILE */
 
     @media (max-width: 800px) {
       .container {
         grid-template-columns: 1fr;
       }
 
-      .sidebar {
-        order: 1;
-      }
-
-      .main {
-        order: 2;
-      }
-
       .nav-inner {
-        align-items: flex-start;
         flex-direction: column;
+        align-items: flex-start;
       }
 
       .hero h1 {
@@ -515,645 +462,686 @@
 
 <body>
 
-  <!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
 
-  <nav>
-    <div class="nav-inner">
-
-      <div class="logo">
-        <span>0x</span>CRACK
-      </div>
-
-      <div class="nav-links">
-
-        <button onclick="showHome()">
-          المنتدى
-        </button>
-
-        <button onclick="openTopicModal()">
-          + موضوع جديد
-        </button>
-
-        <button id="authButton" onclick="openAuthModal()">
-          تسجيل الدخول
-        </button>
-
-        <button
-          id="logoutButton"
-          class="danger-btn"
-          onclick="logout()"
-          style="display:none;"
-        >
-          تسجيل الخروج
-        </button>
-
-        <span id="userInfo" class="user-info"></span>
-
-      </div>
-
+    <div class="logo">
+      <span>0x</span>CRACK
     </div>
-  </nav>
 
+    <div class="nav-links">
 
-  <!-- HOME -->
+      <button onclick="showHome()">
+        المنتدى
+      </button>
 
-  <div id="home">
+      <button onclick="openTopicModal()">
+        + موضوع جديد
+      </button>
 
-    <section class="hero">
+      <button id="authButton" onclick="openAuthModal()">
+        تسجيل الدخول
+      </button>
 
-      <h1>
-        مرحباً بك في
-        <span>0xCRACK</span>
-      </h1>
+      <button
+        id="logoutButton"
+        class="danger-btn"
+        onclick="logout()"
+        style="display:none;"
+      >
+        تسجيل الخروج
+      </button>
 
-      <p>
-        مجتمع عربي للأمن السيبراني، Linux، البرمجة والتقنية
-      </p>
-
-    </section>
-
-
-    <div class="container">
-
-      <!-- SIDEBAR -->
-
-      <aside class="sidebar">
-
-        <h3>الأقسام</h3>
-
-        <div id="categoryList" class="category-list">
-          جاري تحميل الأقسام...
-        </div>
-
-      </aside>
-
-
-      <!-- TOPICS -->
-
-      <main class="main">
-
-        <div class="section-title">
-
-          <h2>
-            آخر النقاشات
-          </h2>
-
-          <button
-            class="primary-btn"
-            onclick="openTopicModal()"
-          >
-            + موضوع جديد
-          </button>
-
-        </div>
-
-        <div id="topicsList" class="topics-list">
-          جاري تحميل النقاشات...
-        </div>
-
-      </main>
+      <span id="userInfo" class="user-info"></span>
 
     </div>
 
   </div>
+</nav>
 
 
-  <!-- CATEGORY PAGE -->
+<!-- الصفحة الرئيسية -->
 
-  <section id="categoryPage" class="page-section">
+<div id="home">
 
-    <button
-      class="back-btn"
-      onclick="showHome()"
-    >
-      ← رجوع
-    </button>
+  <section class="hero">
 
-    <div class="category-header">
+    <h1>
+      مرحباً بك في
+      <span>0xCRACK</span>
+    </h1>
 
-      <h1 id="categoryTitle">
-        القسم
-      </h1>
-
-      <p id="categoryDescription">
-        نقاشات هذا القسم
-      </p>
-
-    </div>
-
-    <div
-      id="categoryTopics"
-      class="topics-list"
-    >
-      جاري تحميل النقاشات...
-    </div>
+    <p>
+      مجتمع عربي للأمن السيبراني، Linux، البرمجة والتقنية
+    </p>
 
   </section>
 
 
-  <!-- TOPIC PAGE -->
+  <div class="container">
 
-  <section id="topicPage" class="page-section">
+    <aside class="sidebar">
+
+      <h3>الأقسام</h3>
+
+      <div id="categoryList" class="category-list">
+        جاري تحميل الأقسام...
+      </div>
+
+    </aside>
+
+
+    <main class="main">
+
+      <div class="section-title">
+
+        <h2>
+          آخر النقاشات
+        </h2>
+
+        <button
+          class="primary-btn"
+          onclick="openTopicModal()"
+        >
+          + موضوع جديد
+        </button>
+
+      </div>
+
+      <div id="topicsList" class="topics-list">
+        جاري تحميل النقاشات...
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
+
+
+<!-- صفحة القسم -->
+
+<section id="categoryPage" class="page-section">
+
+  <button
+    class="back-btn"
+    onclick="showHome()"
+  >
+    ← رجوع
+  </button>
+
+  <div class="category-header">
+
+    <h1 id="categoryTitle">
+      القسم
+    </h1>
+
+    <p id="categoryDescription">
+      نقاشات هذا القسم
+    </p>
+
+  </div>
+
+  <div
+    id="categoryTopics"
+    class="topics-list"
+  >
+    جاري تحميل النقاشات...
+  </div>
+
+</section>
+
+
+<!-- صفحة الموضوع -->
+
+<section id="topicPage" class="page-section">
+
+  <button
+    class="back-btn"
+    onclick="backToCategory()"
+  >
+    ← رجوع للقسم
+  </button>
+
+  <article class="single-topic">
+
+    <h1 id="singleTopicTitle"></h1>
+
+    <div
+      id="singleTopicContent"
+      class="single-topic-content"
+    ></div>
+
+    <small
+      id="singleTopicDate"
+      class="single-topic-date"
+    ></small>
+
+  </article>
+
+
+  <h2 class="replies-title">
+    💬 الردود
+  </h2>
+
+  <div id="repliesList">
+    جاري تحميل الردود...
+  </div>
+
+
+  <div class="reply-box">
+
+    <textarea
+      id="replyContent"
+      placeholder="اكتب ردك هنا..."
+    ></textarea>
 
     <button
-      class="back-btn"
-      onclick="backToCategory()"
+      class="primary-btn"
+      onclick="createReply()"
     >
-      ← رجوع للقسم
+      إرسال الرد
     </button>
 
-    <article class="single-topic">
+  </div>
 
-      <h1 id="singleTopicTitle"></h1>
-
-      <div
-        id="singleTopicContent"
-        class="single-topic-content"
-      ></div>
-
-      <small
-        id="singleTopicDate"
-        class="single-topic-date"
-      ></small>
-
-    </article>
+</section>
 
 
-    <h2 class="replies-title">
-      💬 الردود
+<!-- تسجيل الدخول -->
+
+<div id="authModal" class="modal">
+
+  <div class="modal-box">
+
+    <h2>
+      تسجيل الدخول
     </h2>
 
-    <div id="repliesList">
-      جاري تحميل الردود...
+    <div class="form-group">
+
+      <label>
+        البريد الإلكتروني
+      </label>
+
+      <input
+        type="email"
+        id="authEmail"
+        placeholder="example@email.com"
+      >
+
     </div>
 
 
-    <div class="reply-box">
+    <div class="form-group">
 
-      <textarea
-        id="replyContent"
-        placeholder="اكتب ردك هنا..."
-      ></textarea>
+      <label>
+        كلمة المرور
+      </label>
+
+      <input
+        type="password"
+        id="authPassword"
+        placeholder="********"
+      >
+
+    </div>
+
+
+    <div class="modal-actions">
 
       <button
         class="primary-btn"
-        onclick="createReply()"
+        onclick="login()"
       >
-        إرسال الرد
+        دخول
+      </button>
+
+      <button
+        class="close-btn"
+        onclick="closeModal('authModal')"
+      >
+        إلغاء
       </button>
 
     </div>
 
-  </section>
+  </div>
+
+</div>
 
 
-  <!-- AUTH MODAL -->
+<!-- موضوع جديد -->
 
-  <div id="authModal" class="modal">
+<div id="topicModal" class="modal">
 
-    <div class="modal-box">
+  <div class="modal-box">
 
-      <h2 id="authTitle">
-        تسجيل الدخول
-      </h2>
-
-      <div class="form-group">
-
-        <label>
-          البريد الإلكتروني
-        </label>
-
-        <input
-          type="email"
-          id="authEmail"
-          placeholder="example@email.com"
-        >
-
-      </div>
+    <h2>
+      إنشاء موضوع جديد
+    </h2>
 
 
-      <div class="form-group">
+    <div class="form-group">
 
-        <label>
-          كلمة المرور
-        </label>
+      <label>
+        القسم
+      </label>
 
-        <input
-          type="password"
-          id="authPassword"
-          placeholder="********"
-        >
+      <select id="topicCategory">
 
-      </div>
+        <option value="">
+          جاري تحميل الأقسام...
+        </option>
+
+      </select>
+
+    </div>
 
 
-      <div class="modal-actions">
+    <div class="form-group">
 
-        <button
-          class="primary-btn"
-          onclick="login()"
-        >
-          دخول
-        </button>
+      <label>
+        عنوان الموضوع
+      </label>
 
-        <button
-          class="close-btn"
-          onclick="closeModal('authModal')"
-        >
-          إلغاء
-        </button>
-
-      </div>
-
-      <p
-        style="margin-top:15px;color:#819589;font-size:13px;"
+      <input
+        type="text"
+        id="topicTitle"
+        placeholder="اكتب عنوان الموضوع..."
       >
-        التسجيل يتم عبر Supabase Auth.
-      </p>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        المحتوى
+      </label>
+
+      <textarea
+        id="topicContent"
+        placeholder="اكتب محتوى الموضوع..."
+      ></textarea>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="primary-btn"
+        onclick="createTopic()"
+      >
+        نشر الموضوع
+      </button>
+
+      <button
+        class="close-btn"
+        onclick="closeModal('topicModal')"
+      >
+        إلغاء
+      </button>
 
     </div>
 
   </div>
 
-
-  <!-- CREATE TOPIC MODAL -->
-
-  <div id="topicModal" class="modal">
-
-    <div class="modal-box">
-
-      <h2>
-        إنشاء موضوع جديد
-      </h2>
+</div>
 
 
-      <div class="form-group">
-
-        <label>
-          القسم
-        </label>
-
-        <select id="topicCategory">
-
-          <option value="">
-            جاري تحميل الأقسام...
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          عنوان الموضوع
-        </label>
-
-        <input
-          type="text"
-          id="topicTitle"
-          placeholder="اكتب عنوان الموضوع..."
-        >
-
-      </div>
-
-
-      <div class="form-group">
-
-        <label>
-          المحتوى
-        </label>
-
-        <textarea
-          id="topicContent"
-          placeholder="اكتب محتوى الموضوع..."
-        ></textarea>
-
-      </div>
-
-
-      <div class="modal-actions">
-
-        <button
-          class="primary-btn"
-          onclick="createTopic()"
-        >
-          نشر الموضوع
-        </button>
-
-        <button
-          class="close-btn"
-          onclick="closeModal('topicModal')"
-        >
-          إلغاء
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- TOAST -->
-
-  <div id="toast"></div>
+<div id="toast"></div>
 
 
 <script>
 
-  /* =========================
-     SUPABASE
-  ========================= */
+const SUPABASE_URL =
+  "https://lcdkvsoztwyuaiizndfl.supabase.co";
 
-  const SUPABASE_URL =
-    "https://lcdkvsoztwyuaiizndfl.supabase.co";
+const SUPABASE_KEY =
+  "sb_publishable_hRQIGaC-5q8lhJnMZsWL3Q_B0v6IfDQ";
 
-  const SUPABASE_KEY =
-    "sb_publishable_hRQIGaC-5q8lhJnMZsWL3Q_B0v6IfDQ";
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-  const db =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
+
+let currentCategoryId = null;
+let currentTopicId = null;
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message) {
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.style.display = "block";
+
+  setTimeout(function() {
+
+    toast.style.display = "none";
+
+  }, 3500);
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(id) {
+
+  document.getElementById(id).style.display =
+    "flex";
+}
+
+
+function closeModal(id) {
+
+  document.getElementById(id).style.display =
+    "none";
+}
+
+
+/* =========================
+   AUTH
+========================= */
+
+async function openAuthModal() {
+
+  const {
+    data: { user }
+  } = await db.auth.getUser();
+
+  if (user) {
+
+    showToast(
+      "أنت مسجل الدخول بالفعل."
+    );
+
+    return;
+  }
+
+  openModal("authModal");
+}
+
+
+async function login() {
+
+  const email =
+    document.getElementById(
+      "authEmail"
+    ).value.trim();
+
+  const password =
+    document.getElementById(
+      "authPassword"
+    ).value;
+
+  if (!email || !password) {
+
+    showToast(
+      "أدخل البريد الإلكتروني وكلمة المرور."
+    );
+
+    return;
+  }
+
+
+  const result =
+    await db.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
+
+
+  if (result.error) {
+
+    console.error(result.error);
+
+    showToast(
+      "فشل تسجيل الدخول: " +
+      result.error.message
+    );
+
+    return;
+  }
+
+
+  closeModal("authModal");
+
+  showToast(
+    "تم تسجيل الدخول ✅"
+  );
+
+  await updateUserUI();
+
+}
+
+
+async function logout() {
+
+  const result =
+    await db.auth.signOut();
+
+
+  if (result.error) {
+
+    showToast(
+      "تعذر تسجيل الخروج."
+    );
+
+    return;
+  }
+
+
+  showToast(
+    "تم تسجيل الخروج."
+  );
+
+  await updateUserUI();
+
+}
+
+
+async function updateUserUI() {
+
+  const {
+    data: { user }
+  } = await db.auth.getUser();
+
+
+  const authButton =
+    document.getElementById(
+      "authButton"
+    );
+
+  const logoutButton =
+    document.getElementById(
+      "logoutButton"
+    );
+
+  const userInfo =
+    document.getElementById(
+      "userInfo"
     );
 
 
-  /* =========================
-     GLOBAL VARIABLES
-  ========================= */
+  if (user) {
 
-  let currentCategoryId = null;
-  let currentTopicId = null;
+    authButton.style.display =
+      "none";
 
+    logoutButton.style.display =
+      "inline-block";
 
-  /* =========================
-     TOAST
-  ========================= */
+    userInfo.style.display =
+      "inline-block";
 
-  function showToast(message) {
+    userInfo.textContent =
+      user.email || "مستخدم";
 
-    const toast =
-      document.getElementById("toast");
+  } else {
 
-    toast.textContent = message;
+    authButton.style.display =
+      "inline-block";
 
-    toast.style.display = "block";
+    logoutButton.style.display =
+      "none";
 
-    setTimeout(function () {
-      toast.style.display = "none";
-    }, 3000);
-  }
-
-
-  /* =========================
-     MODALS
-  ========================= */
-
-  function openModal(id) {
-
-    document.getElementById(id).style.display =
-      "flex";
-  }
-
-
-  function closeModal(id) {
-
-    document.getElementById(id).style.display =
+    userInfo.style.display =
       "none";
   }
 
+}
 
-  /* =========================
-     AUTH
-  ========================= */
 
-  async function openAuthModal() {
+/* =========================
+   تحميل الأقسام
+========================= */
 
-    const {
-      data: { user }
-    } = await db.auth.getUser();
+async function loadCategories() {
 
-    if (user) {
-      showToast("أنت مسجل الدخول بالفعل.");
-      return;
-    }
+  const list =
+    document.getElementById(
+      "categoryList"
+    );
 
-    openModal("authModal");
+  const select =
+    document.getElementById(
+      "topicCategory"
+    );
+
+
+  if (list) {
+
+    list.innerHTML =
+      "جاري تحميل الأقسام...";
+
   }
 
 
-  async function login() {
+  if (select) {
 
-    const email =
-      document.getElementById("authEmail").value.trim();
+    select.innerHTML =
+      '<option value="">جاري تحميل الأقسام...</option>';
 
-    const password =
-      document.getElementById("authPassword").value;
+  }
 
-    if (!email || !password) {
 
-      showToast(
-        "أدخل البريد الإلكتروني وكلمة المرور."
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("categories")
+      .select(
+        "id,name,slug,description"
+      )
+      .order(
+        "id",
+        { ascending: true }
       );
 
-      return;
-    }
+
+  console.log(
+    "CATEGORIES DATA:",
+    data
+  );
+
+  console.log(
+    "CATEGORIES ERROR:",
+    error
+  );
 
 
-    const result =
-      await db.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+  if (error) {
+
+    console.error(
+      "خطأ categories:",
+      error
+    );
 
 
-    if (result.error) {
+    if (list) {
 
-      console.error(result.error);
-
-      showToast(
-        "فشل تسجيل الدخول: " +
-        result.error.message
-      );
-
-      return;
-    }
-
-
-    closeModal("authModal");
-
-    showToast("تم تسجيل الدخول ✅");
-
-    updateUserUI();
-
-  }
-
-
-  async function logout() {
-
-    const result =
-      await db.auth.signOut();
-
-    if (result.error) {
-
-      console.error(result.error);
-
-      showToast("تعذر تسجيل الخروج.");
-
-      return;
-    }
-
-    showToast("تم تسجيل الخروج.");
-
-    updateUserUI();
-
-  }
-
-
-  async function updateUserUI() {
-
-    const {
-      data: { user }
-    } = await db.auth.getUser();
-
-
-    const authButton =
-      document.getElementById("authButton");
-
-    const logoutButton =
-      document.getElementById("logoutButton");
-
-    const userInfo =
-      document.getElementById("userInfo");
-
-
-    if (user) {
-
-      authButton.style.display = "none";
-
-      logoutButton.style.display = "inline-block";
-
-      userInfo.style.display = "inline-block";
-
-      userInfo.textContent =
-        user.email || "مستخدم";
-
-    } else {
-
-      authButton.style.display =
-        "inline-block";
-
-      logoutButton.style.display =
-        "none";
-
-      userInfo.style.display =
-        "none";
+      list.innerHTML = `
+        <div style="color:#ff7070;">
+          ❌ تعذر تحميل الأقسام
+        </div>
+      `;
 
     }
 
-  }
-
-
-  /* =========================
-     CATEGORIES
-  ========================= */
-
-  async function loadCategories() {
-
-    const select =
-      document.getElementById("topicCategory");
-
-    const list =
-      document.getElementById("categoryList");
-
-
-    const result =
-      await db
-        .from("categories")
-        .select("id,name,slug,description")
-        .order("id");
-
-
-    if (result.error) {
-
-      console.error(result.error);
-
-      if (select) {
-
-        select.innerHTML =
-          '<option value="">تعذر تحميل الأقسام</option>';
-
-      }
-
-      if (list) {
-
-        list.innerHTML =
-          '<div style="color:#ff7070;font-size:13px;">تعذر تحميل الأقسام</div>';
-
-      }
-
-      return;
-    }
-
-
-    const categories =
-      result.data || [];
-
-
-    /* SELECT */
 
     if (select) {
 
       select.innerHTML =
-        '<option value="">اختر القسم</option>';
-
-      categories.forEach(function(category) {
-
-        const option =
-          document.createElement("option");
-
-        option.value =
-          category.id;
-
-        option.textContent =
-          category.name;
-
-        select.appendChild(option);
-
-      });
+        '<option value="">تعذر تحميل الأقسام</option>';
 
     }
 
 
-    /* SIDEBAR */
+    return;
+  }
+
+
+  if (!data || data.length === 0) {
 
     if (list) {
 
-      list.innerHTML = "";
+      list.innerHTML =
+        "لا توجد أقسام.";
 
-      if (categories.length === 0) {
-
-        list.innerHTML =
-          '<div class="empty">لا توجد أقسام.</div>';
-
-        return;
-      }
+    }
 
 
-      categories.forEach(function(category) {
+    if (select) {
 
-        const button =
-          document.createElement("button");
+      select.innerHTML =
+        '<option value="">لا توجد أقسام</option>';
 
-        button.className =
-          "category-btn";
+    }
 
-        button.textContent =
-          "▸ " + category.name;
 
-        button.onclick = function() {
+    return;
+  }
+
+
+  /* القائمة الجانبية */
+
+  if (list) {
+
+    list.innerHTML = "";
+
+
+    data.forEach(function(category) {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "category-btn";
+
+
+      button.textContent =
+        "▸ " + category.name;
+
+
+      button.onclick =
+        function() {
 
           openCategory(
             category.id,
@@ -1163,66 +1151,193 @@
 
         };
 
-        list.appendChild(button);
 
-      });
+      list.appendChild(button);
 
-    }
+    });
 
   }
 
 
-  /* =========================
-     HOME TOPICS
-  ========================= */
+  /* قائمة إنشاء الموضوع */
 
-  async function loadTopics() {
+  if (select) {
 
-    const container =
-      document.getElementById("topicsList");
-
-    container.innerHTML =
-      '<div class="empty">جاري تحميل النقاشات...</div>';
+    select.innerHTML =
+      '<option value="">اختر القسم</option>';
 
 
-    const result =
-      await db
-        .from("topics")
-        .select(
-          "id,title,content,created_at,category_id"
-        )
-        .order(
-          "created_at",
-          { ascending: false }
+    data.forEach(function(category) {
+
+      const option =
+        document.createElement(
+          "option"
         );
 
 
-    if (result.error) {
-
-      console.error(result.error);
-
-      container.innerHTML =
-        '<div class="empty">تعذر تحميل النقاشات.</div>';
-
-      return;
-    }
+      option.value =
+        category.id;
 
 
-    const topics =
-      result.data || [];
+      option.textContent =
+        category.name;
 
 
-    if (topics.length === 0) {
+      select.appendChild(option);
 
-      container.innerHTML = `
-        <div class="empty">
-          لا توجد نقاشات حتى الآن.<br><br>
-          كن أول من ينشر موضوعًا!
-        </div>
-      `;
+    });
 
-      return;
-    }
+  }
+
+}
 
 
-    container.innerHTML = "
+/* =========================
+   المواضيع الرئيسية
+========================= */
+
+async function loadTopics() {
+
+  const container =
+    document.getElementById(
+      "topicsList"
+    );
+
+
+  container.innerHTML =
+    '<div class="empty">جاري تحميل النقاشات...</div>';
+
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("topics")
+      .select(
+        "id,title,content,created_at,category_id"
+      )
+      .order(
+        "created_at",
+        { ascending: false }
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      '<div class="empty">تعذر تحميل النقاشات.</div>';
+
+    return;
+  }
+
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML = `
+      <div class="empty">
+        لا توجد نقاشات حتى الآن.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(function(topic) {
+
+    const card =
+      document.createElement(
+        "div"
+      );
+
+
+    card.className =
+      "topic-card";
+
+
+    card.innerHTML = `
+      <h3></h3>
+      <div class="topic-preview"></div>
+      <div class="topic-meta"></div>
+    `;
+
+
+    card.querySelector("h3")
+      .textContent =
+      topic.title;
+
+
+    card.querySelector(
+      ".topic-preview"
+    ).textContent =
+      getPreview(topic.content);
+
+
+    card.querySelector(
+      ".topic-meta"
+    ).textContent =
+      formatDate(topic.created_at);
+
+
+    card.onclick =
+      function() {
+
+        openTopic(topic.id);
+
+      };
+
+
+    container.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================
+   فتح القسم
+========================= */
+
+async function openCategory(
+  categoryId,
+  categoryName,
+  description
+) {
+
+  currentCategoryId =
+    categoryId;
+
+
+  document.getElementById(
+    "home"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "topicPage"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "categoryPage"
+  ).style.display =
+    "block";
+
+
+  document.getElementById(
+    "categoryTitle"
+  ).textContent =
+    categoryName;
+
+
+  document.getElementById(
+    "categoryDescription"
+  ).textContent 
