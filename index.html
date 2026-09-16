@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
     <title>0xCrack - مجتمع الأمن السيبراني</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -29,7 +30,7 @@
         
         <!-- قسم الأقسام -->
         <section>
-            <h2 class="text-xl font-bold text-white mb-4 border-r-4 border-red-600 pr-2">منتدبات الأمن السيبراني</h2>
+            <h2 class="text-xl font-bold text-white mb-4 border-r-4 border-red-600 pr-2">منتديات الأمن السيبراني</h2>
             <div id="categories-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <p class="text-zinc-500 col-span-3">جاري تحميل الأقسام...</p>
             </div>
@@ -82,9 +83,10 @@
     </div>
 
     <script>
-        // إعداد اتصال Supabase (قم باستبدال المفاتيح الخاصة بك هنا)
-        const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
-        const SUPABASE_KEY = 'YOUR-ANON-KEY';
+        // ضع رابط URL ومفتاح anon الخاص بمشروعك هنا:
+        const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co'; 
+        const SUPABASE_KEY = 'YOUR-ANON-KEY'; 
+
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // التهيئة عند تحميل الصفحة
@@ -141,8 +143,8 @@
             const container = document.getElementById('categories-container');
             const select = document.getElementById('topic-category');
             
-            if (error || !data.length) {
-                container.innerHTML = '<p class="text-zinc-500 col-span-3">لا توجد أقسام حتى الآن.</p>';
+            if (error || !data || !data.length) {
+                container.innerHTML = '<p class="text-zinc-500 col-span-3">لا توجد أقسام أو تعذر الاتصال.</p>';
                 return;
             }
 
@@ -165,7 +167,7 @@
             const { data, error } = await _supabase.from('topics').select('*, categories(name)').order('created_at', { ascending: false });
             const container = document.getElementById('topics-container');
 
-            if (error || !data.length) {
+            if (error || !data || !data.length) {
                 container.innerHTML = '<p class="text-zinc-500">لا توجد مواضيع مضافة بعد.</p>';
                 return;
             }
@@ -182,7 +184,7 @@
             });
         }
 
-        // إدارات النوافذ المنبثقة (Modals)
+        // إدارة النوافذ المنبثقة
         function toggleAuthModal() {
             document.getElementById('auth-modal').classList.toggle('hidden');
         }
