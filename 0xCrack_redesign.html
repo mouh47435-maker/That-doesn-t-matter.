@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>0xCrack — مجتمع الأمن السيبراني الجزائري</title>
+  <meta name="description" content="0xCrack — مجتمع جزائري للأمن السيبراني والبرمجة والتقنية">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root{
+      --bg:#050b14;
+      --panel:#091322;
+      --panel2:#0c1727;
+      --line:#172942;
+      --line2:#213854;
+      --text:#eaf2ff;
+      --muted:#8394aa;
+      --blue:#27a9ff;
+      --blue2:#1687d8;
+      --red:#ff2848;
+      --red2:#c91435;
+      --green:#25d98a;
+      --shadow:0 18px 50px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Arial,"Tahoma",sans-serif;
+      background:
+        radial-gradient(circle at 15% 0%,rgba(39,169,255,.07),transparent 28%),
+        radial-gradient(circle at 90% 10%,rgba(255,40,72,.055),transparent 25%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+    body:before{
+      content:"";
+      position:fixed;inset:0;pointer-events:none;opacity:.22;
+      background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                       linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+      background-size:34px 34px;
+    }
+    button,input,textarea,select{font-family:inherit}
+    button{cursor:pointer}
+    nav{
+      position:sticky;top:0;z-index:100;
+      background:rgba(4,9,17,.94);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{
+      max-width:1400px;margin:auto;padding:13px 22px;
+      display:flex;align-items:center;justify-content:space-between;gap:18px;
+    }
+    .logo{
+      font-size:25px;font-weight:900;letter-spacing:.5px;
+      white-space:nowrap;
+      text-shadow:0 0 22px rgba(39,169,255,.18);
+    }
+    .logo span{color:var(--red)}
+    .brand-sub{
+      display:block;font-size:9px;color:#71839a;letter-spacing:2px;margin-top:2px;
+    }
+    .nav-links{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+    .nav-links button{
+      background:transparent;color:#aab9cc;border:1px solid transparent;
+      padding:9px 12px;border-radius:7px;transition:.2s;font-size:13px;
+    }
+    .nav-links button:hover{
+      color:#fff;background:#0d1a2b;border-color:var(--line2);
+    }
+    .user-info{color:var(--green);font-size:12px;display:none}
+    .flag{
+      display:inline-flex;align-items:center;gap:7px;
+      padding:7px 10px;border:1px solid var(--line);
+      border-radius:8px;background:#091321;color:#cbd8e8;font-size:12px;
+    }
+    .hero{
+      max-width:1400px;margin:24px auto 18px;padding:0 22px;
+    }
+    .hero-banner{
+      min-height:215px;border:1px solid #1c3551;border-radius:14px;
+      overflow:hidden;position:relative;
+      background:
+        linear-gradient(90deg,rgba(4,11,20,.98) 0%,rgba(6,14,25,.88) 46%,rgba(12,12,18,.62) 100%),
+        radial-gradient(circle at 78% 45%,rgba(255,40,72,.18),transparent 22%),
+        radial-gradient(circle at 55% 50%,rgba(39,169,255,.12),transparent 30%),
+        #08111e;
+      box-shadow:var(--shadow);
+      display:flex;align-items:center;padding:35px 45px;
+    }
+    .hero-banner:after{
+      content:"";
+      position:absolute;right:4%;top:8%;width:280px;height:180px;
+      border:1px solid rgba(255,40,72,.14);transform:skewX(-18deg) rotate(-7deg);
+      box-shadow:0 0 70px rgba(255,40,72,.08) inset;
+    }
+    .hero-copy{position:relative;z-index:2;max-width:700px}
+    .eyebrow{color:var(--red);font-size:12px;font-weight:bold;letter-spacing:2px;margin-bottom:12px}
+    .hero h1{font-size:42px;margin-bottom:9px;letter-spacing:.4px}
+    .hero h1 span{color:#fff}
+    .hero p{color:#8ea0b6;font-size:14px;line-height:1.8}
+    .hero-tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+    .hero-tag{
+      border:1px solid #1b3552;background:rgba(8,18,31,.78);
+      color:#a9b9cc;padding:7px 11px;border-radius:7px;font-size:11px;
+    }
+    .container{
+      max-width:1400px;margin:auto;padding:0 22px 55px;
+      display:grid;grid-template-columns:270px minmax(0,1fr);gap:18px;
+    }
+    .sidebar,.main{min-width:0}
+    .sidebar{
+      background:linear-gradient(180deg,#091423,#07101c);
+      border:1px solid var(--line);border-radius:12px;padding:17px;height:fit-content;
+      position:sticky;top:82px;box-shadow:var(--shadow);
+    }
+    .sidebar-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+    .sidebar h3{font-size:15px;color:#fff}
+    .side-count{font-size:10px;color:#6f829a}
+    .category-list{display:flex;flex-direction:column;gap:7px}
+    .category-btn{
+      width:100%;text-align:right;background:#0a1625;color:#aebdd0;
+      border:1px solid #152a42;padding:11px 12px;border-radius:8px;
+      transition:.2s;font-size:13px;position:relative;overflow:hidden;
+    }
+    .category-btn:before{
+      content:"";position:absolute;right:0;top:0;bottom:0;width:2px;
+      background:transparent;transition:.2s;
+    }
+    .category-btn:hover{
+      color:#fff;border-color:#275075;background:#0d1b2d;transform:translateX(-2px);
+    }
+    .category-btn:hover:before{background:var(--red)}
+    .main-panel{
+      background:rgba(7,15,26,.55);border:1px solid var(--line);
+      border-radius:12px;padding:20px;box-shadow:var(--shadow);
+    }
+    .section-title{
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:15px;gap:10px
+    }
+    .section-title h2{color:#fff;font-size:20px}
+    .section-title h2:before{
+      content:"";display:inline-block;width:4px;height:19px;background:var(--red);
+      border-radius:3px;margin-left:9px;vertical-align:-3px;
+    }
+    .topics-list{display:flex;flex-direction:column;gap:9px}
+    .topic-card{
+      background:linear-gradient(90deg,#0a1625,#091421);
+      border:1px solid #162a42;border-radius:10px;padding:16px;
+      cursor:pointer;transition:.2s;position:relative;
+    }
+    .topic-card:after{
+      content:"";position:absolute;right:0;top:0;bottom:0;width:3px;
+      background:transparent;border-radius:0 10px 10px 0;
+    }
+    .topic-card:hover{
+      border-color:#2a4c6e;transform:translateY(-2px);
+      box-shadow:0 10px 25px rgba(0,0,0,.2);
+    }
+    .topic-card:hover:after{background:var(--blue)}
+    .topic-card h3{color:#edf4ff;margin-bottom:7px;font-size:16px}
+    .topic-preview{color:#8497ad;line-height:1.7;margin-bottom:8px;font-size:13px}
+    .topic-meta{color:#566a81;font-size:11px}
+    .empty{
+      background:#091421;border:1px dashed #203851;border-radius:10px;
+      padding:28px;text-align:center;color:#74879e
+    }
+    .primary-btn{
+      background:linear-gradient(135deg,var(--red),var(--red2));color:#fff;
+      border:none;padding:10px 15px;border-radius:7px;font-weight:bold;
+      box-shadow:0 8px 20px rgba(255,40,72,.14)
+    }
+    .primary-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+    .danger-btn{
+      background:transparent;color:#ff7287;border:1px solid #5d2633;
+      padding:9px 13px;border-radius:7px
+    }
+    .page-section{
+      display:none;max-width:1400px;margin:24px auto;
+      padding:0 22px 55px;position:relative;z-index:1
+    }
+    .back-btn{
+      background:#091522;color:#75c7ff;border:1px solid #20405e;
+      padding:9px 14px;border-radius:7px;margin-bottom:15px
+    }
+    .category-header{
+      background:linear-gradient(90deg,#0a1625,#0a1320);
+      border:1px solid var(--line);border-radius:12px;padding:23px;margin-bottom:15px
+    }
+    .category-header h1{color:#4cb9ff;margin-bottom:7px}
+    .category-header p{color:#8295ab}
+    .single-topic{
+      background:#091421;border:1px solid var(--line);border-radius:12px;
+      padding:25px;margin-bottom:23px
+    }
+    .single-topic h1{color:#4cb9ff;margin-bottom:17px;font-size:26px}
+    .single-topic-content{white-space:pre-wrap;color:#d2deec;line-height:1.9;font-size:15px}
+    .single-topic-date{display:block;color:#566a81;margin-top:18px;font-size:11px}
+    .replies-title{color:#fff;margin-bottom:13px}
+    .reply-card{background:#091421;border:1px solid var(--line);border-radius:9px;padding:15px;margin-bottom:9px}
+    .reply-content{white-space:pre-wrap;line-height:1.8;color:#d3dfeb}
+    .reply-date{display:block;color:#566a81;font-size:10px;margin-top:7px}
+    .reply-box{background:#091421;border:1px solid var(--line);border-radius:10px;padding:17px;margin-top:18px}
+    .reply-box textarea{
+      width:100%;min-height:120px;resize:vertical;background:#050d18;color:#fff;
+      border:1px solid #203852;border-radius:8px;padding:12px;outline:none;margin-bottom:10px
+    }
+    .reply-box textarea:focus{border-color:var(--blue)}
+    .modal{
+      display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.78);
+      align-items:center;justify-content:center;padding:20px
+    }
+    .modal-box{
+      width:100%;max-width:500px;background:#091522;border:1px solid #24425e;
+      border-radius:12px;padding:23px;box-shadow:0 25px 80px rgba(0,0,0,.55)
+    }
+    .modal-box h2{color:#fff;margin-bottom:18px}
+    .form-group{margin-bottom:14px}
+    .form-group label{display:block;color:#a9b8ca;margin-bottom:7px;font-size:13px}
+    .form-group input,.form-group textarea,.form-group select{
+      width:100%;background:#050d18;color:#fff;border:1px solid #203852;
+      border-radius:8px;padding:11px;outline:none
+    }
+    .form-group textarea{min-height:150px;resize:vertical}
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--blue)}
+    .modal-actions{display:flex;gap:9px;margin-top:9px}
+    .close-btn{
+      background:transparent;color:#a4b0be;border:1px solid #304052;
+      padding:10px 14px;border-radius:7px
+    }
+    #toast{
+      position:fixed;bottom:22px;right:22px;z-index:2000;background:#091522;
+      color:#63c2ff;border:1px solid #2a587d;padding:12px 16px;border-radius:8px;
+      display:none;max-width:90%;box-shadow:var(--shadow)
+    }
+    .footer{
+      max-width:1400px;margin:auto;padding:25px 22px 30px;
+      border-top:1px solid var(--line);color:#52657c;font-size:11px;
+      display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap
+    }
+    @media(max-width:900px){
+      .container{grid-template-columns:1fr}
+      .sidebar{position:static}
+      .nav-inner{align-items:flex-start}
+      .hero-banner{padding:30px 25px}
+    }
+    @media(max-width:600px){
+      .nav-inner{flex-direction:column}
+      .nav-links{width:100%}
+      .hero h1{font-size:30px}
+      .hero-banner{min-height:190px}
+      .main-panel{padding:14px}
+      .container,.hero,.page-section{padding-left:14px;padding-right:14px}
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div>
+      <div class="logo"><span>0x</span>Crack</div>
+      <span class="brand-sub">LEARN • SHARE • BUILD • SECURITY</span>
+    </div>
+
+    <div class="nav-links">
+      <button onclick="showHome()">المنتدى</button>
+      <button onclick="openTopicModal()">+ موضوع جديد</button>
+      <button id="authButton" onclick="openAuthModal()">تسجيل الدخول</button>
+      <button id="logoutButton" class="danger-btn" onclick="logout()" style="display:none;">تسجيل الخروج</button>
+      <span id="userInfo" class="user-info"></span>
+      <span class="flag">🇩🇿 الجزائر</span>
+    </div>
+  </div>
+</nav>
+
+<div id="home">
+  <section class="hero">
+    <div class="hero-banner">
+      <div class="hero-copy">
+        <div class="eyebrow">🇩🇿 ALGERIAN CYBER COMMUNITY</div>
+        <h1>مرحباً بك في <span>0xCrack</span></h1>
+        <p>مجتمع جزائري للأمن السيبراني، Linux، البرمجة والتقنية — تعلّم، شارك وابنِ معرفتك.</p>
+        <div class="hero-tags">
+          <span class="hero-tag">Cyber Security</span>
+          <span class="hero-tag">Programming</span>
+          <span class="hero-tag">Linux</span>
+          <span class="hero-tag">CTF</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <h3>الأقسام</h3>
+        <span class="side-count">0xCrack</span>
+      </div>
+      <div id="categoryList" class="category-list">جاري تحميل الأقسام...</div>
+    </aside>
+
+    <main class="main">
+      <div class="main-panel">
+        <div class="section-title">
+          <h2>آخر النقاشات</h2>
+          <button class="primary-btn" onclick="openTopicModal()">+ موضوع جديد</button>
+        </div>
+        <div id="topicsList" class="topics-list">جاري تحميل النقاشات...</div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<section id="categoryPage" class="page-section">
+  <button class="back-btn" onclick="showHome()">← رجوع</button>
+  <div class="category-header">
+    <h1 id="categoryTitle">القسم</h1>
+    <p id="categoryDescription">نقاشات هذا القسم</p>
+  </div>
+  <div id="categoryTopics" class="topics-list">جاري تحميل النقاشات...</div>
+</section>
+
+<section id="topicPage" class="page-section">
+  <button class="back-btn" onclick="backToCategory()">← رجوع للقسم</button>
+  <article class="single-topic">
+    <h1 id="singleTopicTitle"></h1>
+    <div id="singleTopicContent" class="single-topic-content"></div>
+    <small id="singleTopicDate" class="single-topic-date"></small>
+  </article>
+
+  <h2 class="replies-title">💬 الردود</h2>
+  <div id="repliesList">جاري تحميل الردود...</div>
+
+  <div class="reply-box">
+    <textarea id="replyContent" placeholder="اكتب ردك هنا..."></textarea>
+    <button class="primary-btn" onclick="createReply()">إرسال الرد</button>
+  </div>
+</section>
+
+<div class="footer">
+  <span><strong style="color:#dce8f6">0xCrack</strong> — مجتمع الأمن السيبراني الجزائري 🇩🇿</span>
+  <span>Learn • Share • Build • Stay Ethical</span>
+</div>
+
+<div id="authModal" class="modal">
+  <div class="modal-box">
+    <h2>تسجيل الدخول</h2>
+    <div class="form-group">
+      <label>البريد الإلكتروني</label>
+      <input type="email" id="authEmail" placeholder="example@email.com">
+    </div>
+    <div class="form-group">
+      <label>كلمة المرور</label>
+      <input type="password" id="authPassword" placeholder="********">
+    </div>
+    <div class="modal-actions">
+      <button class="primary-btn" onclick="login()">دخول</button>
+      <button class="close-btn" onclick="closeModal('authModal')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div id="topicModal" class="modal">
+  <div class="modal-box">
+    <h2>إنشاء موضوع جديد</h2>
+    <div class="form-group">
+      <label>القسم</label>
+      <select id="topicCategory">
+        <option value="">جاري تحميل الأقسام...</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>عنوان الموضوع</label>
+      <input type="text" id="topicTitle" placeholder="اكتب عنوان الموضوع...">
+    </div>
+    <div class="form-group">
+      <label>المحتوى</label>
+      <textarea id="topicContent" placeholder="اكتب محتوى الموضوع..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="primary-btn" onclick="createTopic()">نشر الموضوع</button>
+      <button class="close-btn" onclick="closeModal('topicModal')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+  "https://lcdkvsoztwyuaiizndfl.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_hRQIGaC-5q8lhJnMZsWL3Q_B0v6IfDQ";
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+let currentCategoryId = null;
+let currentTopicId = null;
+
+
+/* =========================================
+   TOAST
+========================================= */
+
+function showToast(message) {
+
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.style.display = "block";
+
+  setTimeout(function() {
+    toast.style.display = "none";
+  }, 3500);
+}
+
+
+/* =========================================
+   MODALS
+========================================= */
+
+function openModal(id) {
+
+  const modal = document.getElementById(id);
+
+  if (modal) {
+    modal.style.display = "flex";
+  }
+}
+
+
+function closeModal(id) {
+
+  const modal = document.getElementById(id);
+
+  if (modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+async function openTopicModal() {
+
+  const {
+    data: { user }
+  } = await db.auth.getUser();
+
+  if (!user) {
+
+    showToast(
+      "يجب تسجيل الدخول أولاً."
+    );
+
+    openAuthModal();
+
+    return;
+  }
+
+  openModal("topicModal");
+}
+
+
+/* =========================================
+   AUTH
+========================================= */
+
+async function openAuthModal() {
+
+  const {
+    data: { user }
+  } = await db.auth.getUser();
+
+  if (user) {
+
+    showToast(
+      "أنت مسجل الدخول بالفعل."
+    );
+
+    return;
+  }
+
+  openModal("authModal");
+}
+
+
+async function login() {
+
+  const email =
+    document.getElementById("authEmail")
+      .value.trim();
+
+  const password =
+    document.getElementById("authPassword")
+      .value;
+
+  if (!email || !password) {
+
+    showToast(
+      "أدخل البريد الإلكتروني وكلمة المرور."
+    );
+
+    return;
+  }
+
+  const {
+    data,
+    error
+  } = await db.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (error) {
+
+    console.error(
+      "LOGIN ERROR:",
+      error
+    );
+
+    showToast(
+      "فشل تسجيل الدخول: " +
+      error.message
+    );
+
+    return;
+  }
+
+  closeModal("authModal");
+
+  showToast(
+    "تم تسجيل الدخول ✅"
+  );
+
+  await updateUserUI();
+}
+
+
+async function logout() {
+
+  const {
+    error
+  } = await db.auth.signOut();
+
+  if (error) {
+
+    console.error(error);
+
+    showToast(
+      "تعذر تسجيل الخروج."
+    );
+
+    return;
+  }
+
+  showToast(
+    "تم تسجيل الخروج."
+  );
+
+  await updateUserUI();
+}
+
+
+async function updateUserUI() {
+
+  const {
+    data: { user }
+  } = await db.auth.getUser();
+
+  const authButton =
+    document.getElementById("authButton");
+
+  const logoutButton =
+    document.getElementById("logoutButton");
+
+  const userInfo =
+    document.getElementById("userInfo");
+
+  if (user) {
+
+    authButton.style.display = "none";
+
+    logoutButton.style.display =
+      "inline-block";
+
+    userInfo.style.display =
+      "inline-block";
+
+    userInfo.textContent =
+      user.email || "مستخدم";
+
+  } else {
+
+    authButton.style.display =
+      "inline-block";
+
+    logoutButton.style.display =
+      "none";
+
+    userInfo.style.display =
+      "none";
+  }
+}
+
+
+/* =========================================
+   CATEGORIES
+========================================= */
+
+async function loadCategories() {
+
+  const list =
+    document.getElementById(
+      "categoryList"
+    );
+
+  const select =
+    document.getElementById(
+      "topicCategory"
+    );
+
+  if (list) {
+
+    list.innerHTML =
+      "جاري تحميل الأقسام...";
+
+  }
+
+  if (select) {
+
+    select.innerHTML =
+      '<option value="">جاري تحميل الأقسام...</option>';
+
+  }
+
+  const {
+    data,
+    error
+  } = await db
+    .from("categories")
+    .select(
+      "id,name,slug,description"
+    )
+    .order(
+      "id",
+      { ascending: true }
+    );
+
+  console.log(
+    "CATEGORIES DATA:",
+    data
+  );
+
+  console.log(
+    "CATEGORIES ERROR:",
+    error
+  );
+
+  if (error) {
+
+    console.error(
+      "خطأ categories:",
+      error
+    );
+
+    if (list) {
+
+      list.innerHTML =
+        '<div style="color:#ff7070;">❌ تعذر تحميل الأقسام</div>';
+
+    }
+
+    if (select) {
+
+      select.innerHTML =
+        '<option value="">تعذر تحميل الأقسام</option>';
+
+    }
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    if (list) {
+
+      list.innerHTML =
+        "لا توجد أقسام.";
+
+    }
+
+    if (select) {
+
+      select.innerHTML =
+        '<option value="">لا توجد أقسام</option>';
+
+    }
+
+    return;
+  }
+
+
+  /* القائمة الجانبية */
+
+  if (list) {
+
+    list.innerHTML = "";
+
+    data.forEach(function(category) {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+      button.className =
+        "category-btn";
+
+      button.textContent =
+        "▸ " + category.name;
+
+      button.onclick =
+        function() {
+
+          openCategory(
+            category.id,
+            category.name,
+            category.description
+          );
+
+        };
+
+      list.appendChild(button);
+
+    });
+  }
+
+
+  /* قائمة إنشاء موضوع */
+
+  if (select) {
+
+    select.innerHTML =
+      '<option value="">اختر القسم</option>';
+
+    data.forEach(function(category) {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        category.id;
+
+      option.textContent =
+        category.name;
+
+      select.appendChild(option);
+
+    });
+  }
+}
+
+
+/* =========================================
+   TOPICS
+========================================= */
+
+async function loadTopics() {
+
+  const container =
+    document.getElementById(
+      "topicsList"
+    );
+
+  if (!container) return;
+
+  container.innerHTML =
+    '<div class="empty">جاري تحميل النقاشات...</div>';
+
+  const {
+    data,
+    error
+  } = await db
+    .from("topics")
+    .select(
+      "id,title,content,created_at,category_id"
+    )
+    .order(
+      "created_at",
+      { ascending: false }
+    );
+
+  if (error) {
+
+    console.error(
+      "TOPICS ERROR:",
+      error
+    );
+
+    container.innerHTML =
+      '<div class="empty">تعذر تحميل النقاشات.</div>';
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML =
+      '<div class="empty">لا توجد نقاشات حتى الآن.</div>';
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(function(topic) {
+
+    const card =
+      document.createElement(
+        "div"
+      );
+
+    card.className =
+      "topic-card";
+
+    const title =
+      document.createElement("h3");
+
+    const preview =
+      document.createElement(
+        "div"
+      );
+
+    const meta =
+      document.createElement(
+        "div"
+      );
+
+    title.textContent =
+      topic.title;
+
+    preview.className =
+      "topic-preview";
+
+    preview.textContent =
+      getPreview(topic.content);
+
+    meta.className =
+      "topic-meta";
+
+    meta.textContent =
+      formatDate(topic.created_at);
+
+    card.appendChild(title);
+    card.appendChild(preview);
+    card.appendChild(meta);
+card.onclick = function() {
+  openTopic(topic.id);
+};
+
+container.appendChild(card);
+
+  });
+}
+
+
+/* =========================================
+   CATEGORY PAGE
+========================================= */
+
+async function openCategory(categoryId, name, description) {
+
+  currentCategoryId = categoryId;
+
+  document.getElementById("home").style.display = "none";
+  document.getElementById("topicPage").style.display = "none";
+  document.getElementById("categoryPage").style.display = "block";
+
+  document.getElementById("categoryTitle").textContent = name;
+  document.getElementById("categoryDescription").textContent =
+    description || "نقاشات هذا القسم";
+
+  await loadCategoryTopics(categoryId);
+}
+
+
+/* =========================================
+   CATEGORY TOPICS
+========================================= */
+
+async function loadCategoryTopics(categoryId) {
+
+  const container =
+    document.getElementById("categoryTopics");
+
+  container.innerHTML =
+    '<div class="empty">جاري تحميل النقاشات...</div>';
+
+  const { data, error } = await db
+    .from("topics")
+    .select("id,title,content,created_at,category_id")
+    .eq("category_id", categoryId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("CATEGORY TOPICS ERROR:", error);
+
+    container.innerHTML =
+      '<div class="empty">تعذر تحميل النقاشات.</div>';
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div class="empty">لا توجد نقاشات في هذا القسم.</div>';
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(function(topic) {
+
+    const card = document.createElement("div");
+    card.className = "topic-card";
+
+    const title = document.createElement("h3");
+    title.textContent = topic.title;
+
+    const preview = document.createElement("div");
+    preview.className = "topic-preview";
+    preview.textContent = getPreview(topic.content);
+
+    const meta = document.createElement("div");
+    meta.className = "topic-meta";
+    meta.textContent = formatDate(topic.created_at);
+
+    card.appendChild(title);
+    card.appendChild(preview);
+    card.appendChild(meta);
+
+    card.onclick = function() {
+      openTopic(topic.id);
+    };
+
+    container.appendChild(card);
+  });
+}
+
+
+/* =========================================
+   TOPIC PAGE
+========================================= */
+
+async function openTopic(topicId) {
+
+  currentTopicId = topicId;
+
+  document.getElementById("home").style.display = "none";
+  document.getElementById("categoryPage").style.display = "none";
+  document.getElementById("topicPage").style.display = "block";
+
+  const { data, error } = await db
+    .from("topics")
+    .select("id,title,content,created_at,category_id")
+    .eq("id", topicId)
+    .single();
+
+  if (error) {
+    console.error("TOPIC ERROR:", error);
+    showToast("تعذر تحميل الموضوع.");
+    return;
+  }
+
+  document.getElementById("singleTopicTitle").textContent =
+    data.title;
+
+  document.getElementById("singleTopicContent").textContent =
+    data.content;
+
+  document.getElementById("singleTopicDate").textContent =
+    formatDate(data.created_at);
+
+  currentCategoryId = data.category_id;
+
+  await loadReplies(topicId);
+}
+
+
+/* =========================================
+   REPLIES
+========================================= */
+
+async function loadReplies(topicId) {
+
+  const container =
+    document.getElementById("repliesList");
+
+  container.innerHTML =
+    '<div class="empty">جاري تحميل الردود...</div>';
+
+  const { data, error } = await db
+    .from("replies")
+    .select("id,user_id,content,created_at")
+    .eq("topic_id", topicId)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("REPLIES ERROR:", error);
+
+    container.innerHTML =
+      '<div class="empty">تعذر تحميل الردود.</div>';
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div class="empty">لا توجد ردود بعد.</div>';
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(function(reply) {
+
+    const card = document.createElement("div");
+    card.className = "reply-card";
+
+    const content = document.createElement("div");
+    content.className = "reply-content";
+    content.textContent = reply.content;
+
+    const date = document.createElement("small");
+    date.className = "reply-date";
+    date.textContent = formatDate(reply.created_at);
+
+    card.appendChild(content);
+    card.appendChild(date);
+
+    container.appendChild(card);
+  });
+}
+
+
+/* =========================================
+   CREATE REPLY
+========================================= */
+
+async function createReply() {
+
+  const {
+    data: { user }
+  } = await db.auth.getUser();
+
+  if (!user) {
+    showToast("يجب تسجيل الدخول أولاً.");
+    openAuthModal();
+    return;
+  }
+
+  const content =
+    document.getElementById("replyContent").value.trim();
+
+  if (!content) {
+    showToast("اكتب الرد أولاً.");
+    return;
+  }
+
+  const { error } = await db
+    .from("replies")
+    .insert({
+      topic_id: currentTopicId,
+      user_id: user.id,
+      content: content
+    });
+
+  if (error) {
+    console.error("CREATE REPLY ERROR:", error);
+    showToast("تعذر نشر الرد: " + error.message);
+    return;
+  }
+
+  document.getElementById("replyContent").value = "";
+
+  showToast("تم نشر الرد ✅");
+
+  await loadReplies(currentTopicId);
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+function showHome() {
+
+  document.getElementById("home").style.display = "block";
+  document.getElementById("categoryPage").style.display = "none";
+  document.getElementById("topicPage").style.display = "none";
+
+  currentCategoryId = null;
+  currentTopicId = null;
+
+  loadTopics();
+}
+
+
+function backToCategory() {
+
+  if (currentCategoryId) {
+
+    document.getElementById("home").style.display = "none";
+    document.getElementById("topicPage").style.display = "none";
+    document.getElementById("categoryPage").style.display = "block";
+
+    loadCategoryTopics(currentCategoryId);
+
+  } else {
+
+    showHome();
+
+  }
+}
+
+
+/* =========================================
+   HELPERS
+========================================= */
+
+function getPreview(text) {
+
+  if (!text) return "";
+
+  return text.length > 160
+    ? text.substring(0, 160) + "..."
+    : text;
+}
+
+
+function formatDate(date) {
+
+  if (!date) return "";
+
+  return new Date(date).toLocaleString("ar-DZ");
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+document.addEventListener("DOMContentLoaded", async function() {
+
+  console.log("0xCRACK بدأ التشغيل...");
+
+  try {
+
+    await updateUserUI();
+    await loadCategories();
+    await loadTopics();
+
+  } catch (error) {
+
+    console.error("START ERROR:", error);
+
+    showToast("حدث خطأ أثناء تشغيل الموقع.");
+  }
+
+});
+</script>
+
+</body>
+</html>
