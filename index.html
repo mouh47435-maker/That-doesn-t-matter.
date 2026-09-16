@@ -10,16 +10,20 @@
 </head>
 <body class="bg-black text-gray-200 font-sans min-h-screen flex flex-col">
 
-    <!-- الهيدر / القائمة العلوية -->
+    <!-- الشريط العلوي (Header) -->
     <header class="border-b border-zinc-800 bg-zinc-950 p-4 sticky top-0 z-40">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold text-red-600 tracking-wider">0xCrack</h1>
+            
+            <!-- زر الدخول (يظهر للزائر) -->
             <div id="auth-buttons" class="flex gap-3">
-                <button onclick="toggleAuthModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded text-sm transition">تسجيل الدخول / حساب جديد</button>
+                <button onclick="toggleAuthModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded text-sm transition font-bold">تسجيل الدخول / حساب جديد</button>
             </div>
+            
+            <!-- أزرار العضو (تظهر بعد الدخول) -->
             <div id="user-info" class="hidden flex items-center gap-4">
                 <span id="user-email" class="text-sm text-zinc-400"></span>
-                <button onclick="openTopicModal()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-sm font-bold">+ موضوع جديد</button>
+                <button onclick="openTopicModal()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-sm font-bold">+ إضافة موضوع جديد</button>
                 <button onclick="logout()" class="text-xs text-zinc-500 hover:text-red-500">خروج</button>
             </div>
         </div>
@@ -28,7 +32,7 @@
     <!-- المحتوى الرئيسي -->
     <main class="max-w-6xl mx-auto w-full p-4 flex-grow space-y-8">
         
-        <!-- قسم الأقسام -->
+        <!-- قسم المنتديات -->
         <section>
             <h2 class="text-xl font-bold text-white mb-4 border-r-4 border-red-600 pr-2">منتديات الأمن السيبراني</h2>
             <div id="categories-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -36,7 +40,7 @@
             </div>
         </section>
 
-        <!-- قسم أحدث المواضيع -->
+        <!-- قسم المواضيع -->
         <section>
             <h2 class="text-xl font-bold text-white mb-4 border-r-4 border-red-600 pr-2">أحدث المواضيع</h2>
             <div id="topics-container" class="space-y-3">
@@ -46,7 +50,7 @@
 
     </main>
 
-    <!-- نافذة التسجيل / الدخول (Auth Modal) -->
+    <!-- نافذة تسجيل الدخول -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg w-full max-w-md relative">
             <button onclick="toggleAuthModal()" class="absolute top-3 left-3 text-zinc-500 hover:text-white">✕</button>
@@ -61,7 +65,7 @@
         </div>
     </div>
 
-    <!-- نافذة إضافة موضوع جديد (Topic Modal) -->
+    <!-- نافذة إضافة موضوع جديد -->
     <div id="topic-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg w-full max-w-lg relative">
             <button onclick="closeTopicModal()" class="absolute top-3 left-3 text-zinc-500 hover:text-white">✕</button>
@@ -70,35 +74,37 @@
             <input type="text" id="topic-title" placeholder="عنوان الموضوع" class="w-full p-2.5 mb-3 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
             
             <select id="topic-category" class="w-full p-2.5 mb-3 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
-                <!-- تحميل الأقسام داخل القائمة -->
+                <!-- تحميل الأقسام تلقائياً -->
             </select>
             
             <textarea id="topic-content" rows="5" placeholder="محتوى الموضوع..." class="w-full p-2.5 mb-4 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600"></textarea>
             
             <div class="flex justify-end gap-2">
                 <button onclick="closeTopicModal()" class="px-4 py-2 text-zinc-400 hover:text-white">إلغاء</button>
-                <button onclick="submitNewTopic()" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-bold">نشر الموضوع</button>
+                <button onclick="submitNewTopic()" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-bold">نشر الآن</button>
             </div>
         </div>
     </div>
 
     <script>
-        // ضع رابط URL ومفتاح anon الخاص بمشروعك هنا:
-        const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co'; 
-        const SUPABASE_KEY = 'YOUR-ANON-KEY'; 
+        const SUPABASE_URL = "https://lcdkvsoztwyuaiizndfl.supabase.co";
+        
+        // تنبيه: ضع هنا مفتاح anon الحقيقي الذي يتبدأ بـ eyJ... من لوحة Supabase
+        const SUPABASE_KEY = sb_publishable_hRQIGaC-5q8lhJnMZsWL3Q_B0v6IfDQ;
 
-        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // التهيئة عند تحميل الصفحة
+        console.log("0xCrack connected to Supabase!");
+
         document.addEventListener('DOMContentLoaded', () => {
             checkUserSession();
             loadCategories();
             loadTopics();
         });
 
-        // فحص الجلسة وتسجيل الدخول
+        // التحقق من حساب المستخدم
         async function checkUserSession() {
-            const { data: { session } } = await _supabase.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
                 document.getElementById('auth-buttons').classList.add('hidden');
                 document.getElementById('user-info').classList.remove('hidden');
@@ -109,19 +115,16 @@
             }
         }
 
-        // تسجيل الدخول أو إنشاء حساب
+        // تسجيل الدخول / حساب جديد
         async function handleAuth(type) {
             const email = document.getElementById('auth-email').value;
             const password = document.getElementById('auth-password').value;
             const errorElement = document.getElementById('auth-error');
             errorElement.classList.add('hidden');
 
-            let res;
-            if (type === 'login') {
-                res = await _supabase.auth.signInWithPassword({ email, password });
-            } else {
-                res = await _supabase.auth.signUp({ email, password });
-            }
+            let res = (type === 'login') 
+                ? await supabaseClient.auth.signInWithPassword({ email, password })
+                : await supabaseClient.auth.signUp({ email, password });
 
             if (res.error) {
                 errorElement.innerText = res.error.message;
@@ -133,18 +136,18 @@
         }
 
         async function logout() {
-            await _supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             checkUserSession();
         }
 
-        // تحميل الأقسام من قاعدة البيانات
+        // جلب الأقسام
         async function loadCategories() {
-            const { data, error } = await _supabase.from('categories').select('*');
+            const { data, error } = await supabaseClient.from('categories').select('*');
             const container = document.getElementById('categories-container');
             const select = document.getElementById('topic-category');
             
             if (error || !data || !data.length) {
-                container.innerHTML = '<p class="text-zinc-500 col-span-3">لا توجد أقسام أو تعذر الاتصال.</p>';
+                container.innerHTML = '<p class="text-zinc-500 col-span-3">تعذر تحميل الأقسام أو لا توجد بيانات.</p>';
                 return;
             }
 
@@ -153,7 +156,7 @@
 
             data.forEach(cat => {
                 container.innerHTML += `
-                    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded hover:border-red-600 cursor-pointer transition">
+                    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded hover:border-red-600 transition">
                         <h3 class="font-bold text-white text-lg">${cat.name}</h3>
                         <p class="text-zinc-400 text-sm mt-1">${cat.description || ''}</p>
                     </div>
@@ -162,29 +165,29 @@
             });
         }
 
-        // تحميل المواضيع
+        // جلب المواضيع
         async function loadTopics() {
-            const { data, error } = await _supabase.from('topics').select('*, categories(name)').order('created_at', { ascending: false });
+            const { data, error } = await supabaseClient.from('topics').select('*, categories(name)').order('created_at', { ascending: false });
             const container = document.getElementById('topics-container');
 
             if (error || !data || !data.length) {
-                container.innerHTML = '<p class="text-zinc-500">لا توجد مواضيع مضافة بعد.</p>';
+                container.innerHTML = '<p class="text-zinc-500">لا توجد مواضيع حالياً.</p>';
                 return;
             }
 
             container.innerHTML = '';
             data.forEach(topic => {
                 container.innerHTML += `
-                    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded hover:border-zinc-700 transition">
+                    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded">
                         <span class="text-xs bg-red-950 text-red-400 px-2 py-0.5 rounded">${topic.categories?.name || 'عام'}</span>
                         <h3 class="font-bold text-white text-lg mt-2">${topic.title}</h3>
-                        <p class="text-zinc-400 text-sm mt-1 line-clamp-2">${topic.content}</p>
+                        <p class="text-zinc-400 text-sm mt-1">${topic.content}</p>
                     </div>
                 `;
             });
         }
 
-        // إدارة النوافذ المنبثقة
+        // التحكم بالنوافذ
         function toggleAuthModal() {
             document.getElementById('auth-modal').classList.toggle('hidden');
         }
@@ -197,13 +200,13 @@
             document.getElementById('topic-modal').classList.add('hidden');
         }
 
-        // إرسال موضوع جديد إلى Supabase
+        // نشر موضوع جديد
         async function submitNewTopic() {
             const title = document.getElementById('topic-title').value;
             const category_id = document.getElementById('topic-category').value;
             const content = document.getElementById('topic-content').value;
 
-            const { data: { user } } = await _supabase.auth.getUser();
+            const { data: { user } } = await supabaseClient.auth.getUser();
 
             if (!user) {
                 alert('يرجى تسجيل الدخول أولاً!');
@@ -211,18 +214,18 @@
             }
 
             if (!title || !content) {
-                alert('يرجى ملء جميع الحقول!');
+                alert('يرجى كتابة العنوان والمحتوى!');
                 return;
             }
 
-            const { error } = await _supabase.from('topics').insert([
+            const { error } = await supabaseClient.from('topics').insert([
                 { title, category_id, content, user_id: user.id }
             ]);
 
             if (error) {
-                alert('حدث خطأ أثناء النشر: ' + error.message);
+                alert('خطأ أثناء النشر: ' + error.message);
             } else {
-                alert('تم نشر الموضوع بنجاح!');
+                alert('تم النشر بنجاح!');
                 document.getElementById('topic-title').value = '';
                 document.getElementById('topic-content').value = '';
                 closeTopicModal();
