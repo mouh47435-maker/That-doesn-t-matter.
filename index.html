@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>0xCRACK — مجتمع الأمن السيبراني</title>
   <meta name="description" content="0xCRACK — مجتمع عربي للأمن السيبراني والبرمجة">
@@ -23,10 +23,7 @@
       min-height: 100vh;
     }
 
-    button,
-    input,
-    textarea,
-    select {
+    button, input, textarea, select {
       font-family: inherit;
     }
 
@@ -95,9 +92,11 @@
       border: 1px solid #143d27;
       border-radius: 16px;
       background:
-        radial-gradient(circle at center,
-        rgba(0,255,136,.08),
-        transparent 60%),
+        radial-gradient(
+          circle at center,
+          rgba(0,255,136,.08),
+          transparent 60%
+        ),
         #0a100d;
     }
 
@@ -118,7 +117,6 @@
       max-width: 1200px;
       margin: auto;
       padding: 0 20px 50px;
-
       display: grid;
       grid-template-columns: 260px 1fr;
       gap: 20px;
@@ -495,12 +493,8 @@
       <span id="userInfo" class="user-info"></span>
 
     </div>
-
   </div>
 </nav>
-
-
-<!-- الصفحة الرئيسية -->
 
 <div id="home">
 
@@ -517,7 +511,6 @@
 
   </section>
 
-
   <div class="container">
 
     <aside class="sidebar">
@@ -529,7 +522,6 @@
       </div>
 
     </aside>
-
 
     <main class="main">
 
@@ -557,9 +549,6 @@
   </div>
 
 </div>
-
-
-<!-- صفحة القسم -->
 
 <section id="categoryPage" class="page-section">
 
@@ -591,9 +580,6 @@
 
 </section>
 
-
-<!-- صفحة الموضوع -->
-
 <section id="topicPage" class="page-section">
 
   <button
@@ -619,7 +605,6 @@
 
   </article>
 
-
   <h2 class="replies-title">
     💬 الردود
   </h2>
@@ -627,7 +612,6 @@
   <div id="repliesList">
     جاري تحميل الردود...
   </div>
-
 
   <div class="reply-box">
 
@@ -646,9 +630,6 @@
   </div>
 
 </section>
-
-
-<!-- تسجيل الدخول -->
 
 <div id="authModal" class="modal">
 
@@ -672,7 +653,6 @@
 
     </div>
 
-
     <div class="form-group">
 
       <label>
@@ -686,7 +666,6 @@
       >
 
     </div>
-
 
     <div class="modal-actions">
 
@@ -710,9 +689,6 @@
 
 </div>
 
-
-<!-- موضوع جديد -->
-
 <div id="topicModal" class="modal">
 
   <div class="modal-box">
@@ -720,7 +696,6 @@
     <h2>
       إنشاء موضوع جديد
     </h2>
-
 
     <div class="form-group">
 
@@ -738,7 +713,6 @@
 
     </div>
 
-
     <div class="form-group">
 
       <label>
@@ -753,7 +727,6 @@
 
     </div>
 
-
     <div class="form-group">
 
       <label>
@@ -766,7 +739,6 @@
       ></textarea>
 
     </div>
-
 
     <div class="modal-actions">
 
@@ -790,11 +762,12 @@
 
 </div>
 
-
 <div id="toast"></div>
 
-
 <script>
+/* =========================================
+   SUPABASE
+========================================= */
 
 const SUPABASE_URL =
   "https://lcdkvsoztwyuaiizndfl.supabase.co";
@@ -802,59 +775,85 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_hRQIGaC-5q8lhJnMZsWL3Q_B0v6IfDQ";
 
-const db =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
+
+/* =========================================
+   VARIABLES
+========================================= */
 
 let currentCategoryId = null;
 let currentTopicId = null;
 
 
-/* =========================
+/* =========================================
    TOAST
-========================= */
+========================================= */
 
 function showToast(message) {
 
-  const toast =
-    document.getElementById("toast");
+  const toast = document.getElementById("toast");
 
   toast.textContent = message;
-
   toast.style.display = "block";
 
   setTimeout(function() {
-
     toast.style.display = "none";
-
   }, 3500);
 }
 
 
-/* =========================
-   MODAL
-========================= */
+/* =========================================
+   MODALS
+========================================= */
 
 function openModal(id) {
 
-  document.getElementById(id).style.display =
-    "flex";
+  const modal = document.getElementById(id);
+
+  if (modal) {
+    modal.style.display = "flex";
+  }
 }
 
 
 function closeModal(id) {
 
-  document.getElementById(id).style.display =
-    "none";
+  const modal = document.getElementById(id);
+
+  if (modal) {
+    modal.style.display = "none";
+  }
 }
 
 
-/* =========================
+async function openTopicModal() {
+
+  const {
+    data: { user }
+  } = await db.auth.getUser();
+
+  if (!user) {
+
+    showToast(
+      "يجب تسجيل الدخول أولاً."
+    );
+
+    openAuthModal();
+
+    return;
+  }
+
+  openModal("topicModal");
+}
+
+
+/* =========================================
    AUTH
-========================= */
+========================================= */
 
 async function openAuthModal() {
 
@@ -878,14 +877,12 @@ async function openAuthModal() {
 async function login() {
 
   const email =
-    document.getElementById(
-      "authEmail"
-    ).value.trim();
+    document.getElementById("authEmail")
+      .value.trim();
 
   const password =
-    document.getElementById(
-      "authPassword"
-    ).value;
+    document.getElementById("authPassword")
+      .value;
 
   if (!email || !password) {
 
@@ -896,26 +893,28 @@ async function login() {
     return;
   }
 
+  const {
+    data,
+    error
+  } = await db.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
 
-  const result =
-    await db.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
+  if (error) {
 
-
-  if (result.error) {
-
-    console.error(result.error);
+    console.error(
+      "LOGIN ERROR:",
+      error
+    );
 
     showToast(
       "فشل تسجيل الدخول: " +
-      result.error.message
+      error.message
     );
 
     return;
   }
-
 
   closeModal("authModal");
 
@@ -924,17 +923,18 @@ async function login() {
   );
 
   await updateUserUI();
-
 }
 
 
 async function logout() {
 
-  const result =
-    await db.auth.signOut();
+  const {
+    error
+  } = await db.auth.signOut();
 
+  if (error) {
 
-  if (result.error) {
+    console.error(error);
 
     showToast(
       "تعذر تسجيل الخروج."
@@ -943,13 +943,11 @@ async function logout() {
     return;
   }
 
-
   showToast(
     "تم تسجيل الخروج."
   );
 
   await updateUserUI();
-
 }
 
 
@@ -959,27 +957,18 @@ async function updateUserUI() {
     data: { user }
   } = await db.auth.getUser();
 
-
   const authButton =
-    document.getElementById(
-      "authButton"
-    );
+    document.getElementById("authButton");
 
   const logoutButton =
-    document.getElementById(
-      "logoutButton"
-    );
+    document.getElementById("logoutButton");
 
   const userInfo =
-    document.getElementById(
-      "userInfo"
-    );
-
+    document.getElementById("userInfo");
 
   if (user) {
 
-    authButton.style.display =
-      "none";
+    authButton.style.display = "none";
 
     logoutButton.style.display =
       "inline-block";
@@ -1001,13 +990,12 @@ async function updateUserUI() {
     userInfo.style.display =
       "none";
   }
-
 }
 
 
-/* =========================
-   تحميل الأقسام
-========================= */
+/* =========================================
+   CATEGORIES
+========================================= */
 
 async function loadCategories() {
 
@@ -1021,14 +1009,12 @@ async function loadCategories() {
       "topicCategory"
     );
 
-
   if (list) {
 
     list.innerHTML =
       "جاري تحميل الأقسام...";
 
   }
-
 
   if (select) {
 
@@ -1037,21 +1023,18 @@ async function loadCategories() {
 
   }
 
-
   const {
     data,
     error
-  } =
-    await db
-      .from("categories")
-      .select(
-        "id,name,slug,description"
-      )
-      .order(
-        "id",
-        { ascending: true }
-      );
-
+  } = await db
+    .from("categories")
+    .select(
+      "id,name,slug,description"
+    )
+    .order(
+      "id",
+      { ascending: true }
+    );
 
   console.log(
     "CATEGORIES DATA:",
@@ -1063,7 +1046,6 @@ async function loadCategories() {
     error
   );
 
-
   if (error) {
 
     console.error(
@@ -1071,17 +1053,12 @@ async function loadCategories() {
       error
     );
 
-
     if (list) {
 
-      list.innerHTML = `
-        <div style="color:#ff7070;">
-          ❌ تعذر تحميل الأقسام
-        </div>
-      `;
+      list.innerHTML =
+        '<div style="color:#ff7070;">❌ تعذر تحميل الأقسام</div>';
 
     }
-
 
     if (select) {
 
@@ -1090,10 +1067,8 @@ async function loadCategories() {
 
     }
 
-
     return;
   }
-
 
   if (!data || data.length === 0) {
 
@@ -1104,14 +1079,12 @@ async function loadCategories() {
 
     }
 
-
     if (select) {
 
       select.innerHTML =
         '<option value="">لا توجد أقسام</option>';
 
     }
-
 
     return;
   }
@@ -1123,7 +1096,6 @@ async function loadCategories() {
 
     list.innerHTML = "";
 
-
     data.forEach(function(category) {
 
       const button =
@@ -1131,14 +1103,11 @@ async function loadCategories() {
           "button"
         );
 
-
       button.className =
         "category-btn";
 
-
       button.textContent =
         "▸ " + category.name;
-
 
       button.onclick =
         function() {
@@ -1151,21 +1120,18 @@ async function loadCategories() {
 
         };
 
-
       list.appendChild(button);
 
     });
-
   }
 
 
-  /* قائمة إنشاء الموضوع */
+  /* قائمة إنشاء موضوع */
 
   if (select) {
 
     select.innerHTML =
       '<option value="">اختر القسم</option>';
-
 
     data.forEach(function(category) {
 
@@ -1174,27 +1140,22 @@ async function loadCategories() {
           "option"
         );
 
-
       option.value =
         category.id;
-
 
       option.textContent =
         category.name;
 
-
       select.appendChild(option);
 
     });
-
   }
-
 }
 
 
-/* =========================
-   المواضيع الرئيسية
-========================= */
+/* =========================================
+   TOPICS
+========================================= */
 
 async function loadTopics() {
 
@@ -1203,29 +1164,30 @@ async function loadTopics() {
       "topicsList"
     );
 
+  if (!container) return;
 
   container.innerHTML =
     '<div class="empty">جاري تحميل النقاشات...</div>';
 
-
   const {
     data,
     error
-  } =
-    await db
-      .from("topics")
-      .select(
-        "id,title,content,created_at,category_id"
-      )
-      .order(
-        "created_at",
-        { ascending: false }
-      );
-
+  } = await db
+    .from("topics")
+    .select(
+      "id,title,content,created_at,category_id"
+    )
+    .order(
+      "created_at",
+      { ascending: false }
+    );
 
   if (error) {
 
-    console.error(error);
+    console.error(
+      "TOPICS ERROR:",
+      error
+    );
 
     container.innerHTML =
       '<div class="empty">تعذر تحميل النقاشات.</div>';
@@ -1233,21 +1195,15 @@ async function loadTopics() {
     return;
   }
 
-
   if (!data || data.length === 0) {
 
-    container.innerHTML = `
-      <div class="empty">
-        لا توجد نقاشات حتى الآن.
-      </div>
-    `;
+    container.innerHTML =
+      '<div class="empty">لا توجد نقاشات حتى الآن.</div>';
 
     return;
   }
 
-
   container.innerHTML = "";
-
 
   data.forEach(function(topic) {
 
@@ -1256,34 +1212,40 @@ async function loadTopics() {
         "div"
       );
 
-
     card.className =
       "topic-card";
 
+    const title =
+      document.createElement("h3");
 
-    card.innerHTML = `
-      <h3></h3>
-      <div class="topic-preview"></div>
-      <div class="topic-meta"></div>
-    `;
+    const preview =
+      document.createElement(
+        "div"
+      );
 
+    const meta =
+      document.createElement(
+        "div"
+      );
 
-    card.querySelector("h3")
-      .textContent =
+    title.textContent =
       topic.title;
 
+    preview.className =
+      "topic-preview";
 
-    card.querySelector(
-      ".topic-preview"
-    ).textContent =
+    preview.textContent =
       getPreview(topic.content);
 
+    meta.className =
+      "topic-meta";
 
-    card.querySelector(
-      ".topic-meta"
-    ).textContent =
+    meta.textContent =
       formatDate(topic.created_at);
 
+    card.appendChild(title);
+    card.appendChild(preview);
+    card.appendChild(meta);
 
     card.onclick =
       function() {
@@ -1292,52 +1254,4 @@ async function loadTopics() {
 
       };
 
-
-    container.appendChild(card);
-
-  });
-
-}
-
-
-/* =========================
-   فتح القسم
-========================= */
-
-async function openCategory(
-  categoryId,
-  categoryName,
-  description
-) {
-
-  currentCategoryId =
-    categoryId;
-
-
-  document.getElementById(
-    "home"
-  ).style.display =
-    "none";
-
-
-  document.getElementById(
-    "topicPage"
-  ).style.display =
-    "none";
-
-
-  document.getElementById(
-    "categoryPage"
-  ).style.display =
-    "block";
-
-
-  document.getElementById(
-    "categoryTitle"
-  ).textContent =
-    categoryName;
-
-
-  document.getElementById(
-    "categoryDescription"
-  ).textContent 
+    container.ap
