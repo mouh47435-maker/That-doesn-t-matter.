@@ -1,0 +1,1 @@
+0xCrack v1 - static frontend. Open index.html in a browser. Next: backend, auth, database, moderation and deployment.
