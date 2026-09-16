@@ -1,237 +1,1455 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" translate="no">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google" content="notranslate">
-    <title>0xCrack - مجتمع الأمن السيبراني</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>HackZone — Cybersecurity Community</title>
+<meta name="description" content="HackZone cybersecurity and programming community">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#050807;
+  color:#d9eee4;
+  min-height:100vh
+}
+
+button,input,textarea{
+  font:inherit
+}
+
+button{
+  cursor:pointer
+}
+
+a{
+  text-decoration:none;
+  color:inherit
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(5,8,7,.96);
+  border-bottom:1px solid #183629;
+  backdrop-filter:blur(12px)
+}
+
+.nav{
+  max-width:1200px;
+  height:68px;
+  margin:auto;
+  padding:0 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px
+}
+
+.logo{
+  color:#00ff88;
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:1px
+}
+
+.logo span{
+  color:white
+}
+
+.navlinks{
+  display:flex;
+  gap:8px
+}
+
+.navlinks button{
+  color:#9bb2a8;
+  background:none;
+  border:0;
+  padding:10px 13px;
+  border-radius:8px
+}
+
+.navlinks button:hover{
+  color:#00ff88;
+  background:#0b1611
+}
+
+/* BUTTON */
+
+.btn{
+  border:1px solid #00ff88;
+  background:#00ff88;
+  color:#031008;
+  padding:10px 16px;
+  border-radius:8px;
+  font-weight:bold
+}
+
+.btn:hover{
+  opacity:.85
+}
+
+.btn.secondary{
+  background:transparent;
+  color:#00ff88
+}
+
+/* MAIN */
+
+main{
+  max-width:1200px;
+  margin:auto;
+  padding:30px 20px 80px
+}
+
+.hero{
+  padding:50px 30px;
+  margin-bottom:25px;
+  border:1px solid #183629;
+  border-radius:16px;
+  background:
+  radial-gradient(circle at 85% 20%,rgba(0,255,136,.10),transparent 35%),
+  #09100d
+}
+
+.hero h1{
+  font-size:clamp(32px,6vw,58px);
+  margin-bottom:15px
+}
+
+.green{
+  color:#00ff88
+}
+
+.hero p{
+  max-width:700px;
+  color:#819a8e;
+  line-height:1.7;
+  margin-bottom:22px
+}
+
+/* LAYOUT */
+
+.layout{
+  display:grid;
+  grid-template-columns:1fr 300px;
+  gap:20px
+}
+
+.panel{
+  background:#09100d;
+  border:1px solid #183629;
+  border-radius:14px;
+  overflow:hidden
+}
+
+.panel-title{
+  min-height:62px;
+  padding:15px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #183629
+}
+
+.panel-title h2{
+  font-size:17px
+}
+
+/* TOPICS */
+
+.topic{
+  padding:20px;
+  border-bottom:1px solid #13271e;
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  transition:.2s;
+  cursor:pointer
+}
+
+.topic:last-child{
+  border-bottom:0
+}
+
+.topic:hover{
+  background:#0c1712
+}
+
+.topic h3{
+  color:#ecfff5;
+  margin-bottom:8px
+}
+
+.topic p{
+  color:#789187;
+  font-size:14px;
+  line-height:1.5
+}
+
+.topic-meta{
+  color:#60776d;
+  font-size:12px;
+  text-align:right;
+  min-width:80px
+}
+
+/* SIDEBAR */
+
+.side-box{
+  padding:20px;
+  border-bottom:1px solid #183629
+}
+
+.side-box:last-child{
+  border-bottom:0
+}
+
+.side-box h3{
+  color:#00ff88;
+  margin-bottom:14px
+}
+
+.category{
+  padding:12px 0;
+  color:#8da59a;
+  border-bottom:1px solid #112119
+}
+
+.category:last-child{
+  border:0
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
+}
+
+.stat{
+  padding:15px;
+  border:1px solid #173629;
+  background:#060d09;
+  border-radius:9px
+}
+
+.stat strong{
+  display:block;
+  color:#00ff88;
+  font-size:21px;
+  margin-bottom:5px
+}
+
+.stat span{
+  color:#70867c;
+  font-size:12px
+}
+
+/* USER */
+
+#userArea{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+
+.user{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:13px
+}
+
+.avatar{
+  width:36px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#10271c;
+  color:#00ff88;
+  font-weight:bold
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:500;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.78)
+}
+
+.modal.active{
+  display:flex
+}
+
+.modalbox{
+  width:100%;
+  max-width:470px;
+  background:#09100d;
+  border:1px solid #24513c;
+  border-radius:15px;
+  padding:25px;
+  box-shadow:0 20px 70px rgba(0,0,0,.6)
+}
+
+.modalhead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px
+}
+
+.close{
+  border:0;
+  background:none;
+  color:#71877d;
+  font-size:27px
+}
+
+.formgroup{
+  margin-bottom:15px
+}
+
+.formgroup label{
+  display:block;
+  color:#91aaa0;
+  font-size:13px;
+  margin-bottom:7px
+}
+
+.formgroup input,
+.formgroup textarea{
+  width:100%;
+  background:#050a08;
+  border:1px solid #1a3b2c;
+  color:white;
+  outline:none;
+  padding:12px;
+  border-radius:8px
+}
+
+.formgroup input:focus,
+.formgroup textarea:focus{
+  border-color:#00ff88
+}
+
+.formgroup textarea{
+  min-height:130px;
+  resize:vertical
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:20px
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  z-index:1000;
+  right:20px;
+  bottom:20px;
+  padding:14px 18px;
+  background:#0a1711;
+  border:1px solid #00ff88;
+  border-radius:9px;
+  color:#dffff0;
+  display:none
+}
+
+.toast.show{
+  display:block
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+  .navlinks{
+    display:none
+  }
+
+  .layout{
+    grid-template-columns:1fr
+  }
+
+  .hero{
+    padding:35px 20px
+  }
+
+  .topic{
+    flex-direction:column
+  }
+
+  .topic-meta{
+    text-align:left
+  }
+
+  .user span{
+    display:none
+  }
+
+}
+</style>
 </head>
-<body class="bg-black text-gray-200 font-sans min-h-screen flex flex-col">
 
-    <!-- الشريط العلوي (Header) -->
-    <header class="border-b border-zinc-800 bg-zinc-950 p-4 sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-red-600 tracking-wider">0xCrack</h1>
-            
-            <!-- زر الدخول (يظهر للزائر) -->
-            <div id="auth-buttons" class="flex gap-3">
-                <button onclick="toggleAuthModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded text-sm transition font-bold">تسجيل الدخول / حساب جديد</button>
-            </div>
-            
-            <!-- أزرار العضو (تظهر بعد الدخول) -->
-            <div id="user-info" class="hidden flex items-center gap-4">
-                <span id="user-email" class="text-sm text-zinc-400"></span>
-                <button onclick="openTopicModal()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-sm font-bold">+ إضافة موضوع جديد</button>
-                <button onclick="logout()" class="text-xs text-zinc-500 hover:text-red-500">خروج</button>
-            </div>
-        </div>
-    </header>
+<body>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="max-w-6xl mx-auto w-full p-4 flex-grow space-y-8">
-        
-        <!-- قسم المنتديات -->
-        <section>
-            <h2 class="text-xl font-bold text-white mb-4 border-r-4 border-red-600 pr-2">منتديات الأمن السيبراني</h2>
-            <div id="categories-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <p class="text-zinc-500 col-span-3">جاري تحميل الأقسام...</p>
-            </div>
-        </section>
+<header>
 
-        <!-- قسم المواضيع -->
-        <section>
-            <h2 class="text-xl font-bold text-white mb-4 border-r-4 border-red-600 pr-2">أحدث المواضيع</h2>
-            <div id="topics-container" class="space-y-3">
-                <p class="text-zinc-500">جاري تحميل المواضيع...</p>
-            </div>
-        </section>
+<div class="nav">
 
-    </main>
+<a href="#" class="logo">
+<span>HACK</span>ZONE
+</a>
 
-    <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg w-full max-w-md relative">
-            <button onclick="toggleAuthModal()" class="absolute top-3 left-3 text-zinc-500 hover:text-white">✕</button>
-            <h3 class="text-xl font-bold text-white mb-4">الدخول / التسجيل</h3>
-            <input type="email" id="auth-email" placeholder="البريد الإلكتروني" class="w-full p-2.5 mb-3 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
-            <input type="password" id="auth-password" placeholder="كلمة المرور" class="w-full p-2.5 mb-4 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
-            <div class="flex gap-2">
-                <button onclick="handleAuth('login')" class="w-1/2 bg-zinc-800 hover:bg-zinc-700 text-white py-2 rounded">دخول</button>
-                <button onclick="handleAuth('signup')" class="w-1/2 bg-red-600 hover:bg-red-700 text-white py-2 rounded">حساب جديد</button>
-            </div>
-            <p id="auth-error" class="text-red-500 text-xs mt-3 hidden"></p>
-        </div>
-    </div>
+<div class="navlinks">
 
-    <!-- نافذة إضافة موضوع جديد -->
-    <div id="topic-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-        <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg w-full max-w-lg relative">
-            <button onclick="closeTopicModal()" class="absolute top-3 left-3 text-zinc-500 hover:text-white">✕</button>
-            <h3 class="text-xl font-bold text-white mb-4">كتابة موضوع جديد</h3>
-            
-            <input type="text" id="topic-title" placeholder="عنوان الموضوع" class="w-full p-2.5 mb-3 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
-            
-            <select id="topic-category" class="w-full p-2.5 mb-3 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
-                <!-- تحميل الأقسام تلقائياً -->
-            </select>
-            
-            <textarea id="topic-content" rows="5" placeholder="محتوى الموضوع..." class="w-full p-2.5 mb-4 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600"></textarea>
-            
-            <div class="flex justify-end gap-2">
-                <button onclick="closeTopicModal()" class="px-4 py-2 text-zinc-400 hover:text-white">إلغاء</button>
-                <button onclick="submitNewTopic()" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-bold">نشر الآن</button>
-            </div>
-        </div>
-    </div>
+<button onclick="scrollTopics()">
+Forums
+</button>
 
-    <script>
-        const SUPABASE_URL = "https://lcdkvsoztwyuaiizndfl.supabase.co";
-        
-        // تنبيه: ضع هنا مفتاح anon الحقيقي الذي يتبدأ بـ eyJ... من لوحة Supabase
-        const SUPABASE_KEY = sb_publishable_hRQIGaC-5q8lhJnMZsWL3Q_B0v6IfDQ;
+<button onclick="openTopicModal()">
+New Topic
+</button>
 
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</div>
 
-        console.log("0xCrack connected to Supabase!");
+<div id="userArea">
 
-        document.addEventListener('DOMContentLoaded', () => {
-            checkUserSession();
-            loadCategories();
-            loadTopics();
-        });
+<button class="btn secondary" onclick="openAuth()">
+Login
+</button>
 
-        // التحقق من حساب المستخدم
-        async function checkUserSession() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session) {
-                document.getElementById('auth-buttons').classList.add('hidden');
-                document.getElementById('user-info').classList.remove('hidden');
-                document.getElementById('user-email').innerText = session.user.email;
-            } else {
-                document.getElementById('auth-buttons').classList.remove('hidden');
-                document.getElementById('user-info').classList.add('hidden');
-            }
-        }
+</div>
 
-        // تسجيل الدخول / حساب جديد
-        async function handleAuth(type) {
-            const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-password').value;
-            const errorElement = document.getElementById('auth-error');
-            errorElement.classList.add('hidden');
+</div>
 
-            let res = (type === 'login') 
-                ? await supabaseClient.auth.signInWithPassword({ email, password })
-                : await supabaseClient.auth.signUp({ email, password });
+</header>
 
-            if (res.error) {
-                errorElement.innerText = res.error.message;
-                errorElement.classList.remove('hidden');
-            } else {
-                toggleAuthModal();
-                checkUserSession();
-            }
-        }
 
-        async function logout() {
-            await supabaseClient.auth.signOut();
-            checkUserSession();
-        }
+<main>
 
-        // جلب الأقسام
-        async function loadCategories() {
-            const { data, error } = await supabaseClient.from('categories').select('*');
-            const container = document.getElementById('categories-container');
-            const select = document.getElementById('topic-category');
-            
-            if (error || !data || !data.length) {
-                container.innerHTML = '<p class="text-zinc-500 col-span-3">تعذر تحميل الأقسام أو لا توجد بيانات.</p>';
-                return;
-            }
+<section class="hero">
 
-            container.innerHTML = '';
-            select.innerHTML = '';
+<h1>
+Welcome to <span class="green">HackZone</span>
+</h1>
 
-            data.forEach(cat => {
-                container.innerHTML += `
-                    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded hover:border-red-600 transition">
-                        <h3 class="font-bold text-white text-lg">${cat.name}</h3>
-                        <p class="text-zinc-400 text-sm mt-1">${cat.description || ''}</p>
-                    </div>
-                `;
-                select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
-            });
-        }
+<p>
+A community for cybersecurity, ethical hacking,
+programming, Linux, networking, privacy and
+web development.
+</p>
 
-        // جلب المواضيع
-        async function loadTopics() {
-            const { data, error } = await supabaseClient.from('topics').select('*, categories(name)').order('created_at', { ascending: false });
-            const container = document.getElementById('topics-container');
+<button class="btn" onclick="openTopicModal()">
++ Create Topic
+</button>
 
-            if (error || !data || !data.length) {
-                container.innerHTML = '<p class="text-zinc-500">لا توجد مواضيع حالياً.</p>';
-                return;
-            }
+</section>
 
-            container.innerHTML = '';
-            data.forEach(topic => {
-                container.innerHTML += `
-                    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded">
-                        <span class="text-xs bg-red-950 text-red-400 px-2 py-0.5 rounded">${topic.categories?.name || 'عام'}</span>
-                        <h3 class="font-bold text-white text-lg mt-2">${topic.title}</h3>
-                        <p class="text-zinc-400 text-sm mt-1">${topic.content}</p>
-                    </div>
-                `;
-            });
-        }
 
-        // التحكم بالنوافذ
-        function toggleAuthModal() {
-            document.getElementById('auth-modal').classList.toggle('hidden');
-        }
+<div class="layout">
 
-        function openTopicModal() {
-            document.getElementById('topic-modal').classList.remove('hidden');
-        }
 
-        function closeTopicModal() {
-            document.getElementById('topic-modal').classList.add('hidden');
-        }
+<section class="panel" id="topicsPanel">
 
-        // نشر موضوع جديد
-        async function submitNewTopic() {
-            const title = document.getElementById('topic-title').value;
-            const category_id = document.getElementById('topic-category').value;
-            const content = document.getElementById('topic-content').value;
+<div class="panel-title">
 
-            const { data: { user } } = await supabaseClient.auth.getUser();
+<h2>
+Latest Discussions
+</h2>
 
-            if (!user) {
-                alert('يرجى تسجيل الدخول أولاً!');
-                return;
-            }
+<button class="btn secondary"
+onclick="loadTopics()">
+Refresh
+</button>
 
-            if (!title || !content) {
-                alert('يرجى كتابة العنوان والمحتوى!');
-                return;
-            }
+</div>
 
-            const { error } = await supabaseClient.from('topics').insert([
-                { title, category_id, content, user_id: user.id }
-            ]);
+<div id="topics">
 
-            if (error) {
-                alert('خطأ أثناء النشر: ' + error.message);
-            } else {
-                alert('تم النشر بنجاح!');
-                document.getElementById('topic-title').value = '';
-                document.getElementById('topic-content').value = '';
-                closeTopicModal();
-                loadTopics();
-            }
-        }
-    </script>
+<div class="topic">
+
+<div>
+<h3>Loading discussions...</h3>
+<p>Connecting to Supabase...</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<aside class="panel">
+
+<div class="side-box">
+
+<h3>Categories</h3>
+
+<div class="category">
+🛡 Cybersecurity
+</div>
+
+<div class="category">
+💻 Programming
+</div>
+
+<div class="category">
+🐧 Linux
+</div>
+
+<div class="category">
+🌐 Networking
+</div>
+
+<div class="category">
+⚡ Web Development
+</div>
+
+<div class="category">
+🔐 Privacy
+</div>
+
+</div>
+
+
+<div class="side-box">
+
+<h3>Community</h3>
+
+<div class="stats">
+
+<div class="stat">
+
+<strong id="topicCount">
+0
+</strong>
+
+<span>
+Topics
+</span>
+
+</div>
+
+<div class="stat">
+
+<strong id="userCount">
+0
+</strong>
+
+<span>
+Members
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</aside>
+
+</div>
+
+</main>
+
+
+<!-- LOGIN -->
+
+<div class="modal" id="authModal">
+
+<div class="modalbox">
+
+<div class="modalhead">
+
+<h2 id="authTitle">
+Login
+</h2>
+
+<button class="close"
+onclick="closeModal('authModal')">
+×
+</button>
+
+</div>
+
+
+<div class="formgroup">
+
+<label>
+Email
+</label>
+
+<input
+id="authEmail"
+type="email"
+placeholder="you@example.com"
+>
+
+</div>
+
+
+<div class="formgroup">
+
+<label>
+Password
+</label>
+
+<input
+id="authPassword"
+type="password"
+placeholder="••••••••"
+>
+
+</div>
+
+
+<div class="actions">
+
+<button class="btn"
+onclick="handleAuth()">
+Continue
+</button>
+
+<button class="btn secondary"
+id="toggleAuth"
+onclick="toggleAuthMode()">
+Create account
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- NEW TOPIC -->
+
+<div class="modal" id="topicModal">
+
+<div class="modalbox">
+
+<div class="modalhead">
+
+<h2>
+Create Topic
+</h2>
+
+<button class="close"
+onclick="closeModal('topicModal')">
+×
+</button>
+
+</div>
+
+
+<div class="formgroup">
+
+<label>
+Title
+</label>
+
+<input
+id="topicTitle"
+type="text"
+maxlength="150"
+placeholder="Enter topic title"
+>
+
+</div>
+
+
+<div class="formgroup">
+
+<label>
+Content
+</label>
+
+<textarea
+id="topicContent"
+placeholder="Write your discussion..."
+></textarea>
+
+</div>
+
+
+<div class="actions">
+
+<button class="btn"
+onclick="createTopic()">
+Publish
+</button>
+
+<button class="btn secondary"
+onclick="closeModal('topicModal')">
+Cancel
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* ==========================================
+   SUPABASE
+========================================== */
+
+const SUPABASE_URL =
+"https://lcdkvsoztwyuaiizndfl.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_hRQIGaC-5q8lhJnMZsWL3Q_B0v6IfDQ";
+
+const db =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+/* ==========================================
+   STATE
+========================================== */
+
+let authMode = "login";
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function escapeHtml(value){
+
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+function truncate(text,length){
+
+if(text.length <= length)
+return text;
+
+return text.substring(0,length)+"...";
+
+}
+
+
+function showToast(message){
+
+const toast =
+document.getElementById("toast");
+
+toast.textContent = message;
+
+toast.classList.add("show");
+
+setTimeout(function(){
+
+toast.classList.remove("show");
+
+},3000);
+
+}
+
+
+function openModal(id){
+
+document
+.getElementById(id)
+.classList.add("active");
+
+}
+
+
+function closeModal(id){
+
+document
+.getElementById(id)
+.classList.remove("active");
+
+}
+
+
+function openAuth(){
+
+openModal("authModal");
+
+}
+
+
+function scrollTopics(){
+
+document
+.getElementById("topicsPanel")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+
+/* ==========================================
+   AUTH MODE
+========================================== */
+
+function toggleAuthMode(){
+
+if(authMode === "login"){
+
+authMode = "signup";
+
+document.getElementById(
+"authTitle"
+).textContent =
+"Create account";
+
+document.getElementById(
+"toggleAuth"
+).textContent =
+"I already have an account";
+
+}else{
+
+authMode = "login";
+
+document.getElementById(
+"authTitle"
+).textContent =
+"Login";
+
+document.getElementById(
+"toggleAuth"
+).textContent =
+"Create account";
+
+}
+
+}
+
+
+/* ==========================================
+   AUTH
+========================================== */
+
+async function handleAuth(){
+
+const email =
+document
+.getElementById("authEmail")
+.value
+.trim();
+
+const password =
+document
+.getElementById("authPassword")
+.value;
+
+
+if(!email || !password){
+
+showToast(
+"Enter email and password."
+);
+
+return;
+
+}
+
+
+let result;
+
+
+if(authMode === "login"){
+
+result =
+await db.auth.signInWithPassword({
+
+email:email,
+
+password:password
+
+});
+
+}else{
+
+result =
+await db.auth.signUp({
+
+email:email,
+
+password:password
+
+});
+
+}
+
+
+if(result.error){
+
+showToast(
+result.error.message
+);
+
+return;
+
+}
+
+
+if(authMode === "signup"){
+
+showToast(
+"Account created successfully."
+);
+
+}else{
+
+showToast(
+"Login successful."
+);
+
+}
+
+
+closeModal("authModal");
+
+updateUserUI();
+
+loadTopics();
+
+}
+
+
+/* ==========================================
+   USER UI
+========================================== */
+
+async function updateUserUI(){
+
+const result =
+await db.auth.getUser();
+
+const user =
+result.data.user;
+
+const area =
+document.getElementById(
+"userArea"
+);
+
+
+if(!user){
+
+area.innerHTML = `
+
+<button
+class="btn secondary"
+onclick="openAuth()">
+Login
+</button>
+
+`;
+
+return;
+
+}
+
+
+const email =
+user.email || "User";
+
+const letter =
+email.charAt(0).toUpperCase();
+
+
+area.innerHTML = `
+
+<div class="user">
+
+<div class="avatar">
+${escapeHtml(letter)}
+</div>
+
+<span>
+${escapeHtml(email)}
+</span>
+
+<button
+class="btn secondary"
+onclick="logout()">
+Logout
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+async function logout(){
+
+await db.auth.signOut();
+
+showToast(
+"Logged out."
+);
+
+updateUserUI();
+
+}
+
+
+/* ==========================================
+   NEW TOPIC MODAL
+========================================== */
+
+async function openTopicModal(){
+
+const result =
+await db.auth.getUser();
+
+if(!result.data.user){
+
+showToast(
+"Please login first."
+);
+
+openAuth();
+
+return;
+
+}
+
+openModal("topicModal");
+
+}
+
+
+/* ==========================================
+   LOAD TOPICS
+========================================== */
+
+async function loadTopics(){
+
+const container =
+document.getElementById("topics");
+
+
+container.innerHTML = `
+
+<div class="topic">
+
+<div>
+
+<h3>
+Loading...
+</h3>
+
+<p>
+Getting discussions from Supabase.
+</p>
+
+</div>
+
+</div>
+
+`;
+
+
+const result =
+await db
+.from("topics")
+.select("*")
+.order(
+"created_at",
+{
+ascending:false
+}
+)
+.limit(30);
+
+
+if(result.error){
+
+console.error(
+result.error
+);
+
+container.innerHTML = `
+
+<div class="topic">
+
+<div>
+
+<h3>
+No topics available
+</h3>
+
+<p>
+Check that your Supabase
+topics table exists.
+</p>
+
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+const topics =
+result.data;
+
+
+if(!topics || topics.length === 0){
+
+container.innerHTML = `
+
+<div class="topic">
+
+<div>
+
+<h3>
+No discussions yet
+</h3>
+
+<p>
+Create the first topic.
+</p>
+
+</div>
+
+</div>
+
+`;
+
+document.getElementById(
+"topicCount"
+).textContent = "0";
+
+return;
+
+}
+
+
+document.getElementById(
+"topicCount"
+).textContent =
+topics.length;
+
+
+container.innerHTML =
+topics.map(function(topic){
+
+const date =
+topic.created_at
+? new Date(
+topic.created_at
+).toLocaleDateString()
+: "";
+
+
+return `
+
+<div
+class="topic"
+onclick="viewTopic('${escapeHtml(topic.id)}')">
+
+<div>
+
+<h3>
+${escapeHtml(
+topic.title ||
+"Untitled topic"
+)}
+</h3>
+
+<p>
+${escapeHtml(
+truncate(
+topic.content || "",
+140
+)
+)}
+</p>
+
+</div>
+
+<div class="topic-meta">
+
+<div>
+${escapeHtml(date)}
+</div>
+
+<br>
+
+<div>
+Discussion
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+/* ==========================================
+   CREATE TOPIC
+========================================== */
+
+async function createTopic(){
+
+const title =
+document
+.getElementById("topicTitle")
+.value
+.trim();
+
+const content =
+document
+.getElementById("topicContent")
+.value
+.trim();
+
+
+if(!title || !content){
+
+showToast(
+"Title and content are required."
+);
+
+return;
+
+}
+
+
+const resultUser =
+await db.auth.getUser();
+
+const user =
+resultUser.data.user;
+
+
+if(!user){
+
+showToast(
+"Please login first."
+);
+
+closeModal("topicModal");
+
+openAuth();
+
+return;
+
+}
+
+
+const result =
+await db
+.from("topics")
+.insert({
+
+title:title,
+
+content:content,
+
+user_id:user.id
+
+});
+
+
+if(result.error){
+
+console.error(
+result.error
+);
+
+showToast(
+result.error.message
+);
+
+return;
+
+}
+
+
+document.getElementById(
+"topicTitle"
+).value = "";
+
+document.getElementById(
+"topicContent"
+).value = "";
+
+
+closeModal(
+"topicModal"
+);
+
+
+showToast(
+"Topic published successfully!"
+);
+
+
+loadTopics();
+
+}
+
+
+/* ==========================================
+   VIEW TOPIC
+========================================== */
+
+async function viewTopic(id){
+
+const result =
+await db
+.from("topics")
+.select("*")
+.eq("id",id)
+.single();
+
+
+if(result.error){
+
+showToast(
+"Could not open topic."
+);
+
+return;
+
+}
+
+
+const topic =
+result.data;
+
+
+alert(
+topic.title +
+"\n\n" +
+topic.content
+);
+
+}
+
+
+/* ==========================================
+   USER COUNT
+========================================== */
+
+async function loadUserCount(){
+
+const result =
+await db
+.from("profiles")
+.select(
+"id",
+{
+count:"exact",
+head:true
+}
+);
+
+
+if(!result.error &&
+result.count !== null){
+
+document.getElementById(
+"userCount"
+).textContent =
+result.count;
+
+}
+
+}
+
+
+/* ==========================================
+   AUTH STATE
+========================================== */
+
+db.auth.onAuthStateChange(
+function(){
+
+updateUserUI();
+
+}
+);
+
+
+/* ==========================================
+   START
+========================================== */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+updateUserUI();
+
+loadTopics();
+
+loadUserCount();
+
+}
+);
+
+</script>
+
 </body>
 </html>
