@@ -1,69 +1,932 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>0xCrack — Cybersecurity Community</title>
-  <meta name="description" content="0xCrack cybersecurity community forum">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>0xCrack — Cybersecurity Forum</title>
+  <meta name="description" content="0xCrack — Cybersecurity, CTF, Bug Bounty, Linux, Programming and Security Community">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #070707;
+      color: #eee;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #090909;
+      border-bottom: 1px solid #262626;
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      min-height: 70px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      color: #ff3030;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: white;
+    }
+
+    .navlinks {
+      display: flex;
+      gap: 22px;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .navlinks a:hover {
+      color: #ff3030;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      background: #191919;
+      color: white;
+      border: 1px solid #333;
+    }
+
+    .btn:hover {
+      border-color: #ff3030;
+    }
+
+    .btn-red {
+      background: #e52222;
+      border-color: #e52222;
+    }
+
+    .btn-red:hover {
+      background: #ff3434;
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: auto;
+      padding: 90px 20px 60px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 7px 13px;
+      border: 1px solid #492020;
+      border-radius: 30px;
+      color: #ff4a4a;
+      background: #160909;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 80px);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: #ff2929;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: auto;
+      color: #aaa;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    .hero-actions {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .stats {
+      max-width: 1000px;
+      margin: 20px auto 70px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      background: #101010;
+      border: 1px solid #272727;
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      color: #ff3030;
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      color: #888;
+      font-size: 13px;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 35px 20px;
+    }
+
+    .section-title {
+      margin-bottom: 25px;
+    }
+
+    .section-title h2 {
+      font-size: 28px;
+      margin-bottom: 7px;
+    }
+
+    .section-title p {
+      color: #777;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .category {
+      background: #101010;
+      border: 1px solid #282828;
+      border-radius: 13px;
+      padding: 24px;
+      transition: .2s;
+    }
+
+    .category:hover {
+      transform: translateY(-3px);
+      border-color: #ff3030;
+    }
+
+    .category .icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+    }
+
+    .category h3 {
+      margin-bottom: 8px;
+    }
+
+    .category p {
+      color: #888;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .posts {
+      display: grid;
+      gap: 10px;
+    }
+
+    .post {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      background: #101010;
+      border: 1px solid #252525;
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .post h3 {
+      margin-bottom: 6px;
+      font-size: 16px;
+    }
+
+    .post p {
+      color: #777;
+      font-size: 13px;
+    }
+
+    .post-meta {
+      color: #ff3939;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .ctf {
+      background: linear-gradient(135deg, #130707, #0d0d0d);
+      border: 1px solid #4b2020;
+      border-radius: 16px;
+      padding: 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .ctf h2 {
+      margin-bottom: 10px;
+    }
+
+    .ctf p {
+      color: #999;
+      line-height: 1.6;
+    }
+
+    footer {
+      margin-top: 60px;
+      border-top: 1px solid #222;
+      padding: 35px 20px;
+      text-align: center;
+      color: #666;
+    }
+
+    /* MODAL */
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,.82);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 420px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 15px;
+      padding: 28px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      right: 15px;
+      top: 12px;
+      color: #888;
+      background: none;
+      font-size: 25px;
+    }
+
+    .modal-box h2 {
+      margin-bottom: 8px;
+    }
+
+    .modal-box > p {
+      color: #777;
+      margin-bottom: 22px;
+      font-size: 14px;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      display: block;
+      color: #aaa;
+      margin-bottom: 7px;
+      font-size: 13px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      outline: none;
+      background: #080808;
+      color: white;
+    }
+
+    .field input:focus {
+      border-color: #ff3030;
+    }
+
+    .form-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 8px;
+      background: #e52222;
+      color: white;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+
+    .switch {
+      margin-top: 18px;
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .switch button {
+      background: none;
+      color: #ff3939;
+      font-weight: bold;
+    }
+
+    .message {
+      margin-top: 12px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .user-box {
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-email {
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    @media(max-width: 800px) {
+      .navlinks {
+        display: none;
+      }
+
+      .categories {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .ctf {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .post {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <header class="topbar">
-    <div class="brand"><span>0x</span>Crack</div>
-    <nav>
-      <a class="active" href="#">Home</a><a href="#forums">Forums</a>
-      <a href="#ctf">CTF</a><a href="#news">Cyber News</a>
+
+<header>
+  <div class="nav">
+
+    <a href="#" class="logo">0x<span>Crack</span></a>
+
+    <nav class="navlinks">
+      <a href="#home">Home</a>
+      <a href="#forums">Forums</a>
+      <a href="#ctf">CTF</a>
+      <a href="#topics">Topics</a>
     </nav>
-    <div class="actions"><button id="themeBtn">◐</button><button class="login">Login</button></div>
-  </header>
 
-  <main>
-    <section class="hero">
+    <div class="auth-buttons" id="authButtons">
+      <button class="btn" onclick="openLogin()">Login</button>
+      <button class="btn btn-red" onclick="openRegister()">Register</button>
+    </div>
+
+    <div class="user-box" id="userBox">
+      <span class="user-email" id="userEmail"></span>
+      <button class="btn" onclick="logout()">Logout</button>
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" id="home">
+    <div class="badge">⚡ Cybersecurity Community</div>
+
+    <h1>Welcome to <span>0xCrack</span></h1>
+
+    <p>
+      A community for cybersecurity, ethical hacking, CTF,
+      bug bounty, programming, Linux, OSINT and security research.
+    </p>
+
+    <div class="hero-actions">
+      <button class="btn btn-red" onclick="openRegister()">
+        Join 0xCrack
+      </button>
+
+      <a href="#forums" class="btn">
+        Explore Forums
+      </a>
+    </div>
+  </section>
+
+  <div class="stats">
+
+    <div class="stat">
+      <strong id="memberCount">0</strong>
+      <span>Members</span>
+    </div>
+
+    <div class="stat">
+      <strong>10+</strong>
+      <span>Security Categories</span>
+    </div>
+
+    <div class="stat">
+      <strong>24/7</strong>
+      <span>Community</span>
+    </div>
+
+  </div>
+
+  <section id="forums">
+
+    <div class="section-title">
+      <h2>Cybersecurity Forums</h2>
+      <p>Learn, discuss and share knowledge.</p>
+    </div>
+
+    <div class="categories">
+
+      <div class="category">
+        <div class="icon">🛡️</div>
+        <h3>Cybersecurity</h3>
+        <p>Security concepts, defense, vulnerabilities and research.</p>
+      </div>
+
+      <div class="category">
+        <div class="icon">🎯</div>
+        <h3>CTF</h3>
+        <p>Challenges, writeups and educational competitions.</p>
+      </div>
+
+      <div class="category">
+        <div class="icon">🐞</div>
+        <h3>Bug Bounty</h3>
+        <p>Responsible vulnerability research and disclosure.</p>
+      </div>
+
+      <div class="category">
+        <div class="icon">🐧</div>
+        <h3>Linux</h3>
+        <p>Linux administration, security and command line.</p>
+      </div>
+
+      <div class="category">
+        <div class="icon">💻</div>
+        <h3>Programming</h3>
+        <p>Python, JavaScript, C, APIs and development.</p>
+      </div>
+
+      <div class="category">
+        <div class="icon">🌐</div>
+        <h3>Web Security</h3>
+        <p>Web application security and defensive testing.</p>
+      </div>
+
+      <div class="category">
+        <div class="icon">📱</div>
+        <h3>Mobile Security</h3>
+        <p>Android, iOS and mobile application security.</p>
+      </div>
+
+      <div class="category">
+        <div class="icon">🔎</div>
+        <h3>OSINT</h3>
+        <p>Open-source intelligence and research techniques.</p>
+      </div>
+
+      <div class="category">
+        <div class="icon">📰</div>
+        <h3>Cyber News</h3>
+        <p>Cybersecurity news, incidents and industry updates.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="topics">
+
+    <div class="section-title">
+      <h2>Latest Topics</h2>
+      <p>Recent discussions from the community.</p>
+    </div>
+
+    <div class="posts">
+
+      <div class="post">
+        <div>
+          <h3>How to start learning cybersecurity?</h3>
+          <p>Cybersecurity • Beginner</p>
+        </div>
+        <span class="post-meta">0 replies</span>
+      </div>
+
+      <div class="post">
+        <div>
+          <h3>Best resources for web security</h3>
+          <p>Web Security</p>
+        </div>
+        <span class="post-meta">0 replies</span>
+      </div>
+
+      <div class="post">
+        <div>
+          <h3>My first CTF challenge</h3>
+          <p>CTF</p>
+        </div>
+        <span class="post-meta">0 replies</span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="ctf">
+
+    <div class="ctf">
+
       <div>
-        <p class="eyebrow">/// CYBERSECURITY COMMUNITY</p>
-        <h1>Learn. Share. <span>Build.</span></h1>
-        <p>Explore cybersecurity, ethical hacking, CTFs, programming and security research with the community.</p>
-        <div class="heroBtns"><a href="#forums" class="primary">Explore Forums →</a><a href="#ctf" class="secondary">Join a CTF</a></div>
-      </div>
-      <div class="terminal"><div class="dots">● ● ●</div><pre id="terminalText">$ ./0xcrack
-[+] Initializing community...
-[+] Security modules loaded
-[+] Status: ONLINE
-&gt; Welcome, hacker_</pre></div>
-    </section>
-
-    <section class="stats">
-      <div><b>12,480</b><span>Members</span></div><div><b>3,742</b><span>Topics</span></div>
-      <div><b>18,906</b><span>Replies</span></div><div><b>128</b><span>Online now</span></div>
-    </section>
-
-    <section id="forums" class="layout">
-      <div class="content">
-        <div class="sectionTitle"><div><small>COMMUNITY</small><h2>Forum Categories</h2></div><button class="filter">All Categories ▾</button></div>
-        <div class="cards">
-          <article><div class="icon">🔐</div><div><h3>Cybersecurity</h3><p>Defensive security, fundamentals and research.</p></div><strong>1,284</strong></article>
-          <article><div class="icon">🐛</div><div><h3>Bug Bounty</h3><p>Responsible vulnerability research and disclosure.</p></div><strong>846</strong></article>
-          <article><div class="icon">🏆</div><div><h3>CTF & Challenges</h3><p>Practice labs, puzzles and competitions.</p></div><strong>623</strong></article>
-          <article><div class="icon">💻</div><div><h3>Programming</h3><p>Python, JavaScript, Linux and security tooling.</p></div><strong>517</strong></article>
-          <article><div class="icon">🌐</div><div><h3>Web Security</h3><p>Web application security and secure development.</p></div><strong>391</strong></article>
-          <article><div class="icon">📱</div><div><h3>Mobile Security</h3><p>Android, iOS and application security.</p></div><strong>278</strong></article>
-        </div>
+        <h2>🔥 0xCrack CTF Arena</h2>
+        <p>
+          Practice cybersecurity skills through legal,
+          isolated and educational challenges.
+        </p>
       </div>
 
-      <aside>
-        <div class="panel"><small>COMMUNITY</small><h3>Latest Posts</h3>
-          <div class="post"><b>Web security basics</b><span>8 min ago</span></div>
-          <div class="post"><b>My first CTF write-up</b><span>21 min ago</span></div>
-          <div class="post"><b>Linux hardening tips</b><span>34 min ago</span></div>
-        </div>
-        <div id="ctf" class="panel ctf"><small>WEEKLY EVENT</small><h3>0xCrack CTF</h3><p>Test your skills in a legal sandbox.</p><button>View Challenge →</button></div>
-      </aside>
-    </section>
+      <button class="btn btn-red" onclick="alert('CTF Arena coming soon!')">
+        Enter CTF
+      </button>
 
-    <section id="news" class="bottom"><div><small>SYSTEM STATUS</small><b>● All systems operational</b></div><div><small>ETHICAL SECURITY</small><b>Learn and test responsibly.</b></div><div><small>0xCRACK</small><b>Made for the community.</b></div></section>
-  </main>
+    </div>
 
-  <footer>© 2026 0xCrack · Community for cybersecurity learning · <a href="#">Rules</a> · <a href="#">Privacy</a></footer>
-  <script src="script.js"></script>
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 0xCrack — Cybersecurity Community</p>
+  <p style="margin-top:8px;">Learn • Secure • Build</p>
+</footer>
+
+
+<!-- LOGIN MODAL -->
+
+<div class="modal" id="loginModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModals()">×</button>
+
+    <h2>Welcome Back</h2>
+    <p>Login to your 0xCrack account.</p>
+
+    <form onsubmit="login(event)">
+
+      <div class="field">
+        <label>Email</label>
+        <input id="loginEmail" type="email" required>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input id="loginPassword" type="password" required>
+      </div>
+
+      <button class="form-btn" type="submit">
+        Login
+      </button>
+
+    </form>
+
+    <div class="message" id="loginMessage"></div>
+
+    <div class="switch">
+      Don't have an account?
+      <button onclick="openRegister()">Register</button>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- REGISTER MODAL -->
+
+<div class="modal" id="registerModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeModals()">×</button>
+
+    <h2>Create Account</h2>
+    <p>Join the 0xCrack community.</p>
+
+    <form onsubmit="register(event)">
+
+      <div class="field">
+        <label>Email</label>
+        <input id="registerEmail" type="email" required>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input id="registerPassword" type="password" minlength="6" required>
+      </div>
+
+      <button class="form-btn" type="submit">
+        Create Account
+      </button>
+
+    </form>
+
+    <div class="message" id="registerMessage"></div>
+
+    <div class="switch">
+      Already have an account?
+      <button onclick="openLogin()">Login</button>
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  /* =========================
+     SUPABASE CONNECTION
+  ========================= */
+
+  const SUPABASE_URL =
+    "https://lcdkvsoztwyuaiizndfl.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_hRQIGaC-5q8lhJnMZsWL3Q_B0v6IfDQ";
+
+  const supabaseClient =
+    supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /* =========================
+     MODALS
+  ========================= */
+
+  function openLogin() {
+    closeModals();
+
+    document
+      .getElementById("loginModal")
+      .classList.add("active");
+  }
+
+  function openRegister() {
+    closeModals();
+
+    document
+      .getElementById("registerModal")
+      .classList.add("active");
+  }
+
+  function closeModals() {
+    document
+      .querySelectorAll(".modal")
+      .forEach(modal => {
+        modal.classList.remove("active");
+      });
+  }
+
+
+  /* =========================
+     REGISTER
+  ========================= */
+
+  async function register(event) {
+
+    event.preventDefault();
+
+    const email =
+      document.getElementById("registerEmail").value;
+
+    const password =
+      document.getElementById("registerPassword").value;
+
+    const message =
+      document.getElementById("registerMessage");
+
+    message.textContent = "Creating account...";
+
+    const { data, error } =
+      await supabaseClient.auth.signUp({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+
+      message.textContent =
+        "Error: " + error.message;
+
+      return;
+    }
+
+    message.textContent =
+      "Account created! Check your email if confirmation is enabled.";
+
+  }
+
+
+  /* =========================
+     LOGIN
+  ========================= */
+
+  async function login(event) {
+
+    event.preventDefault();
+
+    const email =
+      document.getElementById("loginEmail").value;
+
+    const password =
+      document.getElementById("loginPassword").value;
+
+    const message =
+      document.getElementById("loginMessage");
+
+    message.textContent = "Logging in...";
+
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+    if (error) {
+
+      message.textContent =
+        "Error: " + error.message;
+
+      return;
+    }
+
+    message.textContent = "Login successful!";
+
+    closeModals();
+
+    updateUserUI();
+
+  }
+
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    updateUserUI();
+
+  }
+
+
+  /* =========================
+     USER UI
+  ========================= */
+
+  async function updateUserUI() {
+
+    const {
+      data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    const authButtons =
+      document.getElementById("authButtons");
+
+    const userBox =
+      document.getElementById("userBox");
+
+    const userEmail =
+      document.getElementById("userEmail");
+
+    if (user) {
+
+      authButtons.style.display = "none";
+
+      userBox.style.display = "flex";
+
+      userEmail.textContent =
+        user.email;
+
+    } else {
+
+      authButtons.style.display = "flex";
+
+      userBox.style.display = "none";
+
+      userEmail.textContent = "";
+
+    }
+
+  }
+
+
+  /* =========================
+     AUTH LISTENER
+  ========================= */
+
+  supabaseClient.auth.onAuthStateChange(
+    (event, session) => {
+
+      updateUserUI();
+
+    }
+  );
+
+
+  /* =========================
+     INITIAL CHECK
+  ========================= */
+
+  updateUserUI();
+
+
+  /* =========================
+     CLOSE MODAL BY BACKGROUND
+  ========================= */
+
+  document.querySelectorAll(".modal")
+    .forEach(modal => {
+
+      modal.addEventListener("click", function(event) {
+
+        if (event.target === modal) {
+          closeModals();
+        }
+
+      });
+
+    });
+
+</script>
+
 </body>
-</html>
+  </html>
