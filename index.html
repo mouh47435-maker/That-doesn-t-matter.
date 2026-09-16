@@ -10,387 +10,346 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#050807;
-  color:#d9eee4;
-  min-height:100vh
+font-family:Arial,Helvetica,sans-serif;
+background:#050807;
+color:#d9eee4;
+min-height:100vh
 }
 
-button,input,textarea{
-  font:inherit
-}
-
-button{
-  cursor:pointer
-}
-
-a{
-  text-decoration:none;
-  color:inherit
-}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{text-decoration:none;color:inherit}
 
 header{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:rgba(5,8,7,.96);
-  border-bottom:1px solid #183629;
-  backdrop-filter:blur(12px)
+position:sticky;
+top:0;
+z-index:100;
+background:rgba(5,8,7,.96);
+border-bottom:1px solid #183629;
+backdrop-filter:blur(12px)
 }
 
 .nav{
-  max-width:1200px;
-  height:68px;
-  margin:auto;
-  padding:0 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px
+max-width:1200px;
+height:68px;
+margin:auto;
+padding:0 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:20px
 }
 
 .logo{
-  color:#00ff88;
-  font-size:23px;
-  font-weight:900;
-  letter-spacing:1px
+color:#00ff88;
+font-size:23px;
+font-weight:900;
+letter-spacing:1px
 }
 
-.logo span{
-  color:white
-}
+.logo span{color:white}
 
 .navlinks{
-  display:flex;
-  gap:8px
+display:flex;
+gap:8px
 }
 
 .navlinks button{
-  color:#9bb2a8;
-  background:none;
-  border:0;
-  padding:10px 13px;
-  border-radius:8px
+color:#9bb2a8;
+background:none;
+border:0;
+padding:10px 13px;
+border-radius:8px
 }
 
 .navlinks button:hover{
-  color:#00ff88;
-  background:#0b1611
+color:#00ff88;
+background:#0b1611
 }
 
 .btn{
-  border:1px solid #00ff88;
-  background:#00ff88;
-  color:#031008;
-  padding:10px 16px;
-  border-radius:8px;
-  font-weight:bold
+border:1px solid #00ff88;
+background:#00ff88;
+color:#031008;
+padding:10px 16px;
+border-radius:8px;
+font-weight:bold
 }
 
-.btn:hover{
-  opacity:.85
-}
+.btn:hover{opacity:.85}
 
 .btn.secondary{
-  background:transparent;
-  color:#00ff88
+background:transparent;
+color:#00ff88
 }
 
 main{
-  max-width:1200px;
-  margin:auto;
-  padding:30px 20px 80px
+max-width:1200px;
+margin:auto;
+padding:30px 20px 80px
 }
 
 .hero{
-  padding:50px 30px;
-  margin-bottom:25px;
-  border:1px solid #183629;
-  border-radius:16px;
-  background:
-  radial-gradient(circle at 15% 20%,rgba(0,255,136,.10),transparent 35%),
-  #09100d
+padding:50px 30px;
+margin-bottom:25px;
+border:1px solid #183629;
+border-radius:16px;
+background:
+radial-gradient(circle at 15% 20%,rgba(0,255,136,.10),transparent 35%),
+#09100d
 }
 
 .hero h1{
-  font-size:clamp(32px,6vw,58px);
-  margin-bottom:15px
+font-size:clamp(32px,6vw,58px);
+margin-bottom:15px
 }
 
-.green{
-  color:#00ff88
-}
+.green{color:#00ff88}
 
 .hero p{
-  max-width:700px;
-  color:#819a8e;
-  line-height:1.7;
-  margin-bottom:22px
+max-width:700px;
+color:#819a8e;
+line-height:1.7;
+margin-bottom:22px
 }
 
 .layout{
-  display:grid;
-  grid-template-columns:1fr 300px;
-  gap:20px
+display:grid;
+grid-template-columns:1fr 300px;
+gap:20px
 }
 
 .panel{
-  background:#09100d;
-  border:1px solid #183629;
-  border-radius:14px;
-  overflow:hidden
+background:#09100d;
+border:1px solid #183629;
+border-radius:14px;
+overflow:hidden
 }
 
 .panel-title{
-  min-height:62px;
-  padding:15px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  border-bottom:1px solid #183629
+min-height:62px;
+padding:15px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid #183629
 }
 
-.panel-title h2{
-  font-size:17px
-}
+.panel-title h2{font-size:17px}
 
 .topic{
-  padding:20px;
-  border-bottom:1px solid #13271e;
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  transition:.2s;
-  cursor:pointer
+padding:20px;
+border-bottom:1px solid #13271e;
+display:flex;
+justify-content:space-between;
+gap:20px;
+transition:.2s;
+cursor:pointer
 }
 
-.topic:last-child{
-  border-bottom:0
-}
+.topic:last-child{border-bottom:0}
 
-.topic:hover{
-  background:#0c1712
-}
+.topic:hover{background:#0c1712}
 
 .topic h3{
-  color:#ecfff5;
-  margin-bottom:8px
+color:#ecfff5;
+margin-bottom:8px
 }
 
 .topic p{
-  color:#789187;
-  font-size:14px;
-  line-height:1.5
+color:#789187;
+font-size:14px;
+line-height:1.5
 }
 
 .topic-meta{
-  color:#60776d;
-  font-size:12px;
-  text-align:left;
-  min-width:80px
+color:#60776d;
+font-size:12px;
+text-align:left;
+min-width:80px
 }
 
 .side-box{
-  padding:20px;
-  border-bottom:1px solid #183629
+padding:20px;
+border-bottom:1px solid #183629
 }
 
-.side-box:last-child{
-  border-bottom:0
-}
+.side-box:last-child{border-bottom:0}
 
 .side-box h3{
-  color:#00ff88;
-  margin-bottom:14px
+color:#00ff88;
+margin-bottom:14px
 }
 
 .category{
-  padding:12px 0;
-  color:#8da59a;
-  border-bottom:1px solid #112119
+padding:12px 0;
+color:#8da59a;
+border-bottom:1px solid #112119
 }
 
-.category:last-child{
-  border:0
-}
+.category:last-child{border:0}
 
 .stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
 }
 
 .stat{
-  padding:15px;
-  border:1px solid #173629;
-  background:#060d09;
-  border-radius:9px
+padding:15px;
+border:1px solid #173629;
+background:#060d09;
+border-radius:9px
 }
 
 .stat strong{
-  display:block;
-  color:#00ff88;
-  font-size:21px;
-  margin-bottom:5px
+display:block;
+color:#00ff88;
+font-size:21px;
+margin-bottom:5px
 }
 
 .stat span{
-  color:#70867c;
-  font-size:12px
+color:#70867c;
+font-size:12px
 }
 
 #userArea{
-  display:flex;
-  align-items:center;
-  gap:10px
+display:flex;
+align-items:center;
+gap:10px
 }
 
 .user{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  font-size:13px
+display:flex;
+align-items:center;
+gap:9px;
+font-size:13px
 }
 
 .avatar{
-  width:36px;
-  height:36px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  background:#10271c;
-  color:#00ff88;
-  font-weight:bold
+width:36px;
+height:36px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#10271c;
+color:#00ff88;
+font-weight:bold
 }
 
 .modal{
-  position:fixed;
-  inset:0;
-  z-index:500;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:rgba(0,0,0,.78)
+position:fixed;
+inset:0;
+z-index:500;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:rgba(0,0,0,.78)
 }
 
-.modal.active{
-  display:flex
-}
+.modal.active{display:flex}
 
 .modalbox{
-  width:100%;
-  max-width:470px;
-  background:#09100d;
-  border:1px solid #24513c;
-  border-radius:15px;
-  padding:25px;
-  box-shadow:0 20px 70px rgba(0,0,0,.6)
+width:100%;
+max-width:470px;
+background:#09100d;
+border:1px solid #24513c;
+border-radius:15px;
+padding:25px;
+box-shadow:0 20px 70px rgba(0,0,0,.6)
 }
 
 .modalhead{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:22px
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:22px
 }
 
 .close{
-  border:0;
-  background:none;
-  color:#71877d;
-  font-size:27px
+border:0;
+background:none;
+color:#71877d;
+font-size:27px
 }
 
-.formgroup{
-  margin-bottom:15px
-}
+.formgroup{margin-bottom:15px}
 
 .formgroup label{
-  display:block;
-  color:#91aaa0;
-  font-size:13px;
-  margin-bottom:7px
+display:block;
+color:#91aaa0;
+font-size:13px;
+margin-bottom:7px
 }
 
 .formgroup input,
-.formgroup textarea{
-  width:100%;
-  background:#050a08;
-  border:1px solid #1a3b2c;
-  color:white;
-  outline:none;
-  padding:12px;
-  border-radius:8px;
-  direction:rtl
+.formgroup textarea,
+.formgroup select{
+width:100%;
+background:#050a08;
+border:1px solid #1a3b2c;
+color:white;
+outline:none;
+padding:12px;
+border-radius:8px;
+direction:rtl
+}
+
+.formgroup select{
+appearance:auto
 }
 
 .formgroup input:focus,
-.formgroup textarea:focus{
-  border-color:#00ff88
+.formgroup textarea:focus,
+.formgroup select:focus{
+border-color:#00ff88
 }
 
 .formgroup textarea{
-  min-height:130px;
-  resize:vertical
+min-height:130px;
+resize:vertical
 }
 
 .actions{
-  display:flex;
-  gap:10px;
-  margin-top:20px
+display:flex;
+gap:10px;
+margin-top:20px
 }
 
 .toast{
-  position:fixed;
-  z-index:1000;
-  left:20px;
-  bottom:20px;
-  padding:14px 18px;
-  background:#0a1711;
-  border:1px solid #00ff88;
-  border-radius:9px;
-  color:#dffff0;
-  display:none
+position:fixed;
+z-index:1000;
+left:20px;
+bottom:20px;
+padding:14px 18px;
+background:#0a1711;
+border:1px solid #00ff88;
+border-radius:9px;
+color:#dffff0;
+display:none
 }
 
-.toast.show{
-  display:block
-}
+.toast.show{display:block}
 
 @media(max-width:800px){
 
-  .navlinks{
-    display:none
-  }
+.navlinks{display:none}
 
-  .layout{
-    grid-template-columns:1fr
-  }
+.layout{grid-template-columns:1fr}
 
-  .hero{
-    padding:35px 20px
-  }
+.hero{padding:35px 20px}
 
-  .topic{
-    flex-direction:column
-  }
+.topic{flex-direction:column}
 
-  .topic-meta{
-    text-align:right
-  }
+.topic-meta{text-align:right}
 
-  .user span{
-    display:none
-  }
+.user span{display:none}
 
 }
 </style>
@@ -408,13 +367,9 @@ main{
 
 <div class="navlinks">
 
-<button onclick="scrollTopics()">
-المنتدى
-</button>
+<button onclick="scrollTopics()">المنتدى</button>
 
-<button onclick="openTopicModal()">
-موضوع جديد
-</button>
+<button onclick="openTopicModal()">موضوع جديد</button>
 
 </div>
 
@@ -429,7 +384,6 @@ main{
 </div>
 
 </header>
-
 
 <main>
 
@@ -450,20 +404,15 @@ main{
 
 </section>
 
-
 <div class="layout">
-
 
 <section class="panel" id="topicsPanel">
 
 <div class="panel-title">
 
-<h2>
-أحدث النقاشات
-</h2>
+<h2>أحدث النقاشات</h2>
 
-<button class="btn secondary"
-onclick="loadTopics()">
+<button class="btn secondary" onclick="loadTopics()">
 تحديث
 </button>
 
@@ -474,8 +423,11 @@ onclick="loadTopics()">
 <div class="topic">
 
 <div>
+
 <h3>جاري تحميل النقاشات...</h3>
+
 <p>يتم الاتصال بقاعدة البيانات...</p>
+
 </div>
 
 </div>
@@ -484,39 +436,20 @@ onclick="loadTopics()">
 
 </section>
 
-
 <aside class="panel">
 
 <div class="side-box">
 
 <h3>الأقسام</h3>
 
-<div class="category">
-🛡 الأمن السيبراني
-</div>
-
-<div class="category">
-💻 البرمجة
-</div>
-
-<div class="category">
-🐧 Linux
-</div>
-
-<div class="category">
-🌐 الشبكات
-</div>
-
-<div class="category">
-⚡ تطوير الويب
-</div>
-
-<div class="category">
-🔐 الخصوصية
-</div>
+<div class="category">🛡 الأمن السيبراني</div>
+<div class="category">💻 البرمجة</div>
+<div class="category">🐧 Linux</div>
+<div class="category">🌐 الشبكات</div>
+<div class="category">⚡ تطوير الويب</div>
+<div class="category">🔐 الخصوصية</div>
 
 </div>
-
 
 <div class="side-box">
 
@@ -525,27 +458,13 @@ onclick="loadTopics()">
 <div class="stats">
 
 <div class="stat">
-
-<strong id="topicCount">
-0
-</strong>
-
-<span>
-المواضيع
-</span>
-
+<strong id="topicCount">0</strong>
+<span>المواضيع</span>
 </div>
 
 <div class="stat">
-
-<strong id="userCount">
-0
-</strong>
-
-<span>
-الأعضاء
-</span>
-
+<strong id="userCount">0</strong>
+<span>الأعضاء</span>
 </div>
 
 </div>
@@ -558,7 +477,6 @@ onclick="loadTopics()">
 
 </main>
 
-
 <!-- تسجيل الدخول -->
 
 <div class="modal" id="authModal">
@@ -567,23 +485,15 @@ onclick="loadTopics()">
 
 <div class="modalhead">
 
-<h2 id="authTitle">
-تسجيل الدخول
-</h2>
+<h2 id="authTitle">تسجيل الدخول</h2>
 
-<button class="close"
-onclick="closeModal('authModal')">
-×
-</button>
+<button class="close" onclick="closeModal('authModal')">×</button>
 
 </div>
 
-
 <div class="formgroup">
 
-<label>
-البريد الإلكتروني
-</label>
+<label>البريد الإلكتروني</label>
 
 <input
 id="authEmail"
@@ -593,12 +503,9 @@ placeholder="you@example.com"
 
 </div>
 
-
 <div class="formgroup">
 
-<label>
-كلمة المرور
-</label>
+<label>كلمة المرور</label>
 
 <input
 id="authPassword"
@@ -608,11 +515,9 @@ placeholder="••••••••"
 
 </div>
 
-
 <div class="actions">
 
-<button class="btn"
-onclick="handleAuth()">
+<button class="btn" onclick="handleAuth()">
 متابعة
 </button>
 
@@ -628,8 +533,7 @@ onclick="toggleAuthMode()">
 
 </div>
 
-
-<!-- موضوع جديد -->
+<!-- إنشاء موضوع -->
 
 <div class="modal" id="topicModal">
 
@@ -637,9 +541,7 @@ onclick="toggleAuthMode()">
 
 <div class="modalhead">
 
-<h2>
-إنشاء موضوع
-</h2>
+<h2>إنشاء موضوع</h2>
 
 <button class="close"
 onclick="closeModal('topicModal')">
@@ -648,12 +550,9 @@ onclick="closeModal('topicModal')">
 
 </div>
 
-
 <div class="formgroup">
 
-<label>
-عنوان الموضوع
-</label>
+<label>عنوان الموضوع</label>
 
 <input
 id="topicTitle"
@@ -664,12 +563,21 @@ placeholder="اكتب عنوان الموضوع"
 
 </div>
 
+<div class="formgroup">
+
+<label>القسم</label>
+
+<select id="topicCategory">
+
+<option value="">جاري تحميل الأقسام...</option>
+
+</select>
+
+</div>
 
 <div class="formgroup">
 
-<label>
-المحتوى
-</label>
+<label>المحتوى</label>
 
 <textarea
 id="topicContent"
@@ -678,11 +586,9 @@ placeholder="اكتب محتوى النقاش..."
 
 </div>
 
-
 <div class="actions">
 
-<button class="btn"
-onclick="createTopic()">
+<button class="btn" onclick="createTopic()">
 نشر
 </button>
 
@@ -697,9 +603,7 @@ onclick="closeModal('topicModal')">
 
 </div>
 
-
 <div class="toast" id="toast"></div>
-
 
 <script>
 
@@ -800,28 +704,20 @@ if(authMode === "login"){
 
 authMode = "signup";
 
-document.getElementById(
-"authTitle"
-).textContent =
+document.getElementById("authTitle").textContent =
 "إنشاء حساب";
 
-document.getElementById(
-"toggleAuth"
-).textContent =
+document.getElementById("toggleAuth").textContent =
 "لدي حساب بالفعل";
 
 }else{
 
 authMode = "login";
 
-document.getElementById(
-"authTitle"
-).textContent =
+document.getElementById("authTitle").textContent =
 "تسجيل الدخول";
 
-document.getElementById(
-"toggleAuth"
-).textContent =
+document.getElementById("toggleAuth").textContent =
 "إنشاء حساب";
 
 }
@@ -832,81 +728,56 @@ document.getElementById(
 async function handleAuth(){
 
 const email =
-document
-.getElementById("authEmail")
-.value
-.trim();
+document.getElementById("authEmail").value.trim();
 
 const password =
-document
-.getElementById("authPassword")
-.value;
-
+document.getElementById("authPassword").value;
 
 if(!email || !password){
 
-showToast(
-"أدخل البريد الإلكتروني وكلمة المرور."
-);
+showToast("أدخل البريد الإلكتروني وكلمة المرور.");
 
 return;
 
 }
 
-
 let result;
-
 
 if(authMode === "login"){
 
 result =
 await db.auth.signInWithPassword({
-
 email:email,
-
 password:password
-
 });
 
 }else{
 
 result =
 await db.auth.signUp({
-
 email:email,
-
 password:password
-
 });
 
 }
 
-
 if(result.error){
 
-showToast(
-result.error.message
-);
+showToast(result.error.message);
 
 return;
 
 }
 
-
 if(authMode === "signup"){
 
-showToast(
-"تم إنشاء الحساب بنجاح."
-);
+showToast("تم إنشاء الحساب بنجاح.");
 
 }else{
 
-showToast(
-"تم تسجيل الدخول بنجاح."
-);
+showToast("تم تسجيل الدخول بنجاح.");
 
 }
-
 
 closeModal("authModal");
 
@@ -926,10 +797,7 @@ const user =
 result.data.user;
 
 const area =
-document.getElementById(
-"userArea"
-);
-
+document.getElementById("userArea");
 
 if(!user){
 
@@ -947,13 +815,11 @@ return;
 
 }
 
-
 const email =
 user.email || "مستخدم";
 
 const letter =
 email.charAt(0).toUpperCase();
-
 
 area.innerHTML = `
 
@@ -984,9 +850,7 @@ async function logout(){
 
 await db.auth.signOut();
 
-showToast(
-"تم تسجيل الخروج."
-);
+showToast("تم تسجيل الخروج.");
 
 updateUserUI();
 
@@ -1000,9 +864,7 @@ await db.auth.getUser();
 
 if(!result.data.user){
 
-showToast(
-"يجب تسجيل الدخول أولاً."
-);
+showToast("يجب تسجيل الدخول أولاً.");
 
 openAuth();
 
@@ -1010,7 +872,50 @@ return;
 
 }
 
+await loadCategories();
+
 openModal("topicModal");
+
+}
+
+
+async function loadCategories(){
+
+const select =
+document.getElementById("topicCategory");
+
+const result =
+await db
+.from("categories")
+.select("id,name")
+.order("id");
+
+if(result.error){
+
+console.error(result.error);
+
+select.innerHTML =
+'<option value="">تعذر تحميل الأقسام</option>';
+
+return;
+
+}
+
+select.innerHTML =
+'<option value="">اختر القسم</option>';
+
+result.data.forEach(function(category){
+
+const option =
+document.createElement("option");
+
+option.value = category.id;
+
+option.textContent = category.name;
+
+select.appendChild(option);
+
+});
 
 }
 
@@ -1020,20 +925,15 @@ async function loadTopics(){
 const container =
 document.getElementById("topics");
 
-
 container.innerHTML = `
 
 <div class="topic">
 
 <div>
 
-<h3>
-جاري التحميل...
-</h3>
+<h3>جاري التحميل...</h3>
 
-<p>
-يتم جلب النقاشات من قاعدة البيانات.
-</p>
+<p>يتم جلب النقاشات من قاعدة البيانات.</p>
 
 </div>
 
@@ -1041,25 +941,16 @@ container.innerHTML = `
 
 `;
 
-
 const result =
 await db
 .from("topics")
 .select("*")
-.order(
-"created_at",
-{
-ascending:false
-}
-)
+.order("created_at",{ascending:false})
 .limit(30);
-
 
 if(result.error){
 
-console.error(
-result.error
-);
+console.error(result.error);
 
 container.innerHTML = `
 
@@ -1067,13 +958,9 @@ container.innerHTML = `
 
 <div>
 
-<h3>
-لا توجد مواضيع
-</h3>
+<h3>تعذر تحميل المواضيع</h3>
 
-<p>
-تأكد من وجود جدول topics في Supabase.
-</p>
+<p>${escapeHtml(result.error.message)}</p>
 
 </div>
 
@@ -1085,10 +972,8 @@ return;
 
 }
 
-
 const topics =
 result.data;
-
 
 if(!topics || topics.length === 0){
 
@@ -1098,13 +983,9 @@ container.innerHTML = `
 
 <div>
 
-<h3>
-لا توجد نقاشات بعد
-</h3>
+<h3>لا توجد نقاشات بعد</h3>
 
-<p>
-كن أول من ينشئ موضوعاً.
-</p>
+<p>كن أول من ينشئ موضوعاً.</p>
 
 </div>
 
@@ -1112,31 +993,23 @@ container.innerHTML = `
 
 `;
 
-document.getElementById(
-"topicCount"
-).textContent = "0";
+document.getElementById("topicCount").textContent = "0";
 
 return;
 
 }
 
-
-document.getElementById(
-"topicCount"
-).textContent =
+document.getElementById("topicCount").textContent =
 topics.length;
-
 
 container.innerHTML =
 topics.map(function(topic){
 
 const date =
 topic.created_at
-? new Date(
-topic.created_at
-).toLocaleDateString("ar-DZ")
+? new Date(topic.created_at)
+.toLocaleDateString("ar-DZ")
 : "";
-
 
 return `
 
@@ -1147,18 +1020,12 @@ onclick="viewTopic('${escapeHtml(topic.id)}')">
 <div>
 
 <h3>
-${escapeHtml(
-topic.title ||
-"موضوع بدون عنوان"
-)}
+${escapeHtml(topic.title || "موضوع بدون عنوان")}
 </h3>
 
 <p>
 ${escapeHtml(
-truncate(
-topic.content || "",
-140
-)
+truncate(topic.content || "",140)
 )}
 </p>
 
@@ -1190,28 +1057,23 @@ ${escapeHtml(date)}
 async function createTopic(){
 
 const title =
-document
-.getElementById("topicTitle")
-.value
-.trim();
+document.getElementById("topicTitle").value.trim();
 
 const content =
-document
-.getElementById("topicContent")
-.value
-.trim();
+document.getElementById("topicContent").value.trim();
 
+const categoryId =
+document.getElementById("topicCategory").value;
 
-if(!title || !content){
+if(!title || !content || !categoryId){
 
 showToast(
-"العنوان والمحتوى مطلوبان."
+"أدخل العنوان والمحتوى واختر القسم."
 );
 
 return;
 
 }
-
 
 const resultUser =
 await db.auth.getUser();
@@ -1219,12 +1081,9 @@ await db.auth.getUser();
 const user =
 resultUser.data.user;
 
-
 if(!user){
 
-showToast(
-"يجب تسجيل الدخول أولاً."
-);
+showToast("يجب تسجيل الدخول أولاً.");
 
 closeModal("topicModal");
 
@@ -1234,54 +1093,37 @@ return;
 
 }
 
-
 const result =
 await db
 .from("topics")
 .insert({
 
 title:title,
-
 content:content,
-
-user_id:user.id
+user_id:user.id,
+category_id:categoryId
 
 });
 
-
 if(result.error){
 
-console.error(
-result.error
-);
+console.error(result.error);
 
-showToast(
-result.error.message
-);
+showToast(result.error.message);
 
 return;
 
 }
 
+document.getElementById("topicTitle").value = "";
 
-document.getElementById(
-"topicTitle"
-).value = "";
+document.getElementById("topicContent").value = "";
 
-document.getElementById(
-"topicContent"
-).value = "";
+document.getElementById("topicCategory").value = "";
 
+closeModal("topicModal");
 
-closeModal(
-"topicModal"
-);
-
-
-showToast(
-"تم نشر الموضوع بنجاح!"
-);
-
+showToast("تم نشر الموضوع بنجاح!");
 
 loadTopics();
 
@@ -1297,21 +1139,16 @@ await db
 .eq("id",id)
 .single();
 
-
 if(result.error){
 
-showToast(
-"تعذر فتح الموضوع."
-);
+showToast("تعذر فتح الموضوع.");
 
 return;
 
 }
 
-
 const topic =
 result.data;
-
 
 alert(
 topic.title +
@@ -1327,21 +1164,11 @@ async function loadUserCount(){
 const result =
 await db
 .from("profiles")
-.select(
-"id",
-{
-count:"exact",
-head:true
-}
-);
+.select("id",{count:"exact",head:true});
 
+if(!result.error && result.count !== null){
 
-if(!result.error &&
-result.count !== null){
-
-document.getElementById(
-"userCount"
-).textContent =
+document.getElementById("userCount").textContent =
 result.count;
 
 }
@@ -1368,10 +1195,12 @@ loadTopics();
 
 loadUserCount();
 
+loadCategories();
+
 }
 );
 
 </script>
 
 </body>
-</html>
+  </html>
