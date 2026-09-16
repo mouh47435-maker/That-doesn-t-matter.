@@ -1,932 +1,232 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>0xCrack — Cybersecurity Forum</title>
-  <meta name="description" content="0xCrack — Cybersecurity, CTF, Bug Bounty, Linux, Programming and Security Community">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #070707;
-      color: #eee;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: #090909;
-      border-bottom: 1px solid #262626;
-    }
-
-    .nav {
-      max-width: 1200px;
-      margin: auto;
-      min-height: 70px;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      font-size: 25px;
-      font-weight: 900;
-      color: #ff3030;
-      letter-spacing: 1px;
-    }
-
-    .logo span {
-      color: white;
-    }
-
-    .navlinks {
-      display: flex;
-      gap: 22px;
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    .navlinks a:hover {
-      color: #ff3030;
-    }
-
-    .auth-buttons {
-      display: flex;
-      gap: 8px;
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
-    }
-
-    .btn {
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 700;
-      background: #191919;
-      color: white;
-      border: 1px solid #333;
-    }
-
-    .btn:hover {
-      border-color: #ff3030;
-    }
-
-    .btn-red {
-      background: #e52222;
-      border-color: #e52222;
-    }
-
-    .btn-red:hover {
-      background: #ff3434;
-    }
-
-    .hero {
-      max-width: 1200px;
-      margin: auto;
-      padding: 90px 20px 60px;
-      text-align: center;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 7px 13px;
-      border: 1px solid #492020;
-      border-radius: 30px;
-      color: #ff4a4a;
-      background: #160909;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 {
-      font-size: clamp(42px, 8vw, 80px);
-      line-height: 1;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 span {
-      color: #ff2929;
-    }
-
-    .hero p {
-      max-width: 700px;
-      margin: auto;
-      color: #aaa;
-      line-height: 1.7;
-      font-size: 17px;
-    }
-
-    .hero-actions {
-      margin-top: 30px;
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .stats {
-      max-width: 1000px;
-      margin: 20px auto 70px;
-      padding: 0 20px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    .stat {
-      background: #101010;
-      border: 1px solid #272727;
-      border-radius: 12px;
-      padding: 25px;
-      text-align: center;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 28px;
-      color: #ff3030;
-      margin-bottom: 6px;
-    }
-
-    .stat span {
-      color: #888;
-      font-size: 13px;
-    }
-
-    section {
-      max-width: 1200px;
-      margin: auto;
-      padding: 35px 20px;
-    }
-
-    .section-title {
-      margin-bottom: 25px;
-    }
-
-    .section-title h2 {
-      font-size: 28px;
-      margin-bottom: 7px;
-    }
-
-    .section-title p {
-      color: #777;
-    }
-
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .category {
-      background: #101010;
-      border: 1px solid #282828;
-      border-radius: 13px;
-      padding: 24px;
-      transition: .2s;
-    }
-
-    .category:hover {
-      transform: translateY(-3px);
-      border-color: #ff3030;
-    }
-
-    .category .icon {
-      font-size: 28px;
-      margin-bottom: 14px;
-    }
-
-    .category h3 {
-      margin-bottom: 8px;
-    }
-
-    .category p {
-      color: #888;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .posts {
-      display: grid;
-      gap: 10px;
-    }
-
-    .post {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      background: #101010;
-      border: 1px solid #252525;
-      border-radius: 10px;
-      padding: 18px;
-    }
-
-    .post h3 {
-      margin-bottom: 6px;
-      font-size: 16px;
-    }
-
-    .post p {
-      color: #777;
-      font-size: 13px;
-    }
-
-    .post-meta {
-      color: #ff3939;
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .ctf {
-      background: linear-gradient(135deg, #130707, #0d0d0d);
-      border: 1px solid #4b2020;
-      border-radius: 16px;
-      padding: 35px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .ctf h2 {
-      margin-bottom: 10px;
-    }
-
-    .ctf p {
-      color: #999;
-      line-height: 1.6;
-    }
-
-    footer {
-      margin-top: 60px;
-      border-top: 1px solid #222;
-      padding: 35px 20px;
-      text-align: center;
-      color: #666;
-    }
-
-    /* MODAL */
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 999;
-      background: rgba(0,0,0,.82);
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-box {
-      width: 100%;
-      max-width: 420px;
-      background: #111;
-      border: 1px solid #333;
-      border-radius: 15px;
-      padding: 28px;
-      position: relative;
-    }
-
-    .close {
-      position: absolute;
-      right: 15px;
-      top: 12px;
-      color: #888;
-      background: none;
-      font-size: 25px;
-    }
-
-    .modal-box h2 {
-      margin-bottom: 8px;
-    }
-
-    .modal-box > p {
-      color: #777;
-      margin-bottom: 22px;
-      font-size: 14px;
-    }
-
-    .field {
-      margin-bottom: 15px;
-    }
-
-    .field label {
-      display: block;
-      color: #aaa;
-      margin-bottom: 7px;
-      font-size: 13px;
-    }
-
-    .field input {
-      width: 100%;
-      padding: 13px;
-      border-radius: 8px;
-      border: 1px solid #333;
-      outline: none;
-      background: #080808;
-      color: white;
-    }
-
-    .field input:focus {
-      border-color: #ff3030;
-    }
-
-    .form-btn {
-      width: 100%;
-      padding: 13px;
-      border-radius: 8px;
-      background: #e52222;
-      color: white;
-      font-weight: bold;
-      margin-top: 5px;
-    }
-
-    .switch {
-      margin-top: 18px;
-      text-align: center;
-      color: #777;
-      font-size: 14px;
-    }
-
-    .switch button {
-      background: none;
-      color: #ff3939;
-      font-weight: bold;
-    }
-
-    .message {
-      margin-top: 12px;
-      font-size: 13px;
-      text-align: center;
-    }
-
-    .user-box {
-      display: none;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .user-email {
-      color: #aaa;
-      font-size: 13px;
-    }
-
-    @media(max-width: 800px) {
-      .navlinks {
-        display: none;
-      }
-
-      .categories {
-        grid-template-columns: 1fr;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .ctf {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .post {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xCrack - مجتمع الأمن السيبراني</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+<body class="bg-black text-gray-200 font-sans min-h-screen flex flex-col">
 
-<body>
-
-<header>
-  <div class="nav">
-
-    <a href="#" class="logo">0x<span>Crack</span></a>
-
-    <nav class="navlinks">
-      <a href="#home">Home</a>
-      <a href="#forums">Forums</a>
-      <a href="#ctf">CTF</a>
-      <a href="#topics">Topics</a>
-    </nav>
-
-    <div class="auth-buttons" id="authButtons">
-      <button class="btn" onclick="openLogin()">Login</button>
-      <button class="btn btn-red" onclick="openRegister()">Register</button>
-    </div>
-
-    <div class="user-box" id="userBox">
-      <span class="user-email" id="userEmail"></span>
-      <button class="btn" onclick="logout()">Logout</button>
-    </div>
-
-  </div>
-</header>
-
-<main>
-
-  <section class="hero" id="home">
-    <div class="badge">⚡ Cybersecurity Community</div>
-
-    <h1>Welcome to <span>0xCrack</span></h1>
-
-    <p>
-      A community for cybersecurity, ethical hacking, CTF,
-      bug bounty, programming, Linux, OSINT and security research.
-    </p>
-
-    <div class="hero-actions">
-      <button class="btn btn-red" onclick="openRegister()">
-        Join 0xCrack
-      </button>
-
-      <a href="#forums" class="btn">
-        Explore Forums
-      </a>
-    </div>
-  </section>
-
-  <div class="stats">
-
-    <div class="stat">
-      <strong id="memberCount">0</strong>
-      <span>Members</span>
-    </div>
-
-    <div class="stat">
-      <strong>10+</strong>
-      <span>Security Categories</span>
-    </div>
-
-    <div class="stat">
-      <strong>24/7</strong>
-      <span>Community</span>
-    </div>
-
-  </div>
-
-  <section id="forums">
-
-    <div class="section-title">
-      <h2>Cybersecurity Forums</h2>
-      <p>Learn, discuss and share knowledge.</p>
-    </div>
-
-    <div class="categories">
-
-      <div class="category">
-        <div class="icon">🛡️</div>
-        <h3>Cybersecurity</h3>
-        <p>Security concepts, defense, vulnerabilities and research.</p>
-      </div>
-
-      <div class="category">
-        <div class="icon">🎯</div>
-        <h3>CTF</h3>
-        <p>Challenges, writeups and educational competitions.</p>
-      </div>
-
-      <div class="category">
-        <div class="icon">🐞</div>
-        <h3>Bug Bounty</h3>
-        <p>Responsible vulnerability research and disclosure.</p>
-      </div>
-
-      <div class="category">
-        <div class="icon">🐧</div>
-        <h3>Linux</h3>
-        <p>Linux administration, security and command line.</p>
-      </div>
-
-      <div class="category">
-        <div class="icon">💻</div>
-        <h3>Programming</h3>
-        <p>Python, JavaScript, C, APIs and development.</p>
-      </div>
-
-      <div class="category">
-        <div class="icon">🌐</div>
-        <h3>Web Security</h3>
-        <p>Web application security and defensive testing.</p>
-      </div>
-
-      <div class="category">
-        <div class="icon">📱</div>
-        <h3>Mobile Security</h3>
-        <p>Android, iOS and mobile application security.</p>
-      </div>
-
-      <div class="category">
-        <div class="icon">🔎</div>
-        <h3>OSINT</h3>
-        <p>Open-source intelligence and research techniques.</p>
-      </div>
-
-      <div class="category">
-        <div class="icon">📰</div>
-        <h3>Cyber News</h3>
-        <p>Cybersecurity news, incidents and industry updates.</p>
-      </div>
-
-    </div>
-
-  </section>
-
-  <section id="topics">
-
-    <div class="section-title">
-      <h2>Latest Topics</h2>
-      <p>Recent discussions from the community.</p>
-    </div>
-
-    <div class="posts">
-
-      <div class="post">
-        <div>
-          <h3>How to start learning cybersecurity?</h3>
-          <p>Cybersecurity • Beginner</p>
+    <!-- الهيدر / القائمة العلوية -->
+    <header class="border-b border-zinc-800 bg-zinc-950 p-4 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-red-600 tracking-wider">0xCrack</h1>
+            <div id="auth-buttons" class="flex gap-3">
+                <button onclick="toggleAuthModal()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded text-sm transition">تسجيل الدخول / حساب جديد</button>
+            </div>
+            <div id="user-info" class="hidden flex items-center gap-4">
+                <span id="user-email" class="text-sm text-zinc-400"></span>
+                <button onclick="openTopicModal()" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded text-sm font-bold">+ موضوع جديد</button>
+                <button onclick="logout()" class="text-xs text-zinc-500 hover:text-red-500">خروج</button>
+            </div>
         </div>
-        <span class="post-meta">0 replies</span>
-      </div>
+    </header>
 
-      <div class="post">
-        <div>
-          <h3>Best resources for web security</h3>
-          <p>Web Security</p>
+    <!-- المحتوى الرئيسي -->
+    <main class="max-w-6xl mx-auto w-full p-4 flex-grow space-y-8">
+        
+        <!-- قسم الأقسام -->
+        <section>
+            <h2 class="text-xl font-bold text-white mb-4 border-r-4 border-red-600 pr-2">منتدبات الأمن السيبراني</h2>
+            <div id="categories-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <p class="text-zinc-500 col-span-3">جاري تحميل الأقسام...</p>
+            </div>
+        </section>
+
+        <!-- قسم أحدث المواضيع -->
+        <section>
+            <h2 class="text-xl font-bold text-white mb-4 border-r-4 border-red-600 pr-2">أحدث المواضيع</h2>
+            <div id="topics-container" class="space-y-3">
+                <p class="text-zinc-500">جاري تحميل المواضيع...</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- نافذة التسجيل / الدخول (Auth Modal) -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg w-full max-w-md relative">
+            <button onclick="toggleAuthModal()" class="absolute top-3 left-3 text-zinc-500 hover:text-white">✕</button>
+            <h3 class="text-xl font-bold text-white mb-4">الدخول / التسجيل</h3>
+            <input type="email" id="auth-email" placeholder="البريد الإلكتروني" class="w-full p-2.5 mb-3 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
+            <input type="password" id="auth-password" placeholder="كلمة المرور" class="w-full p-2.5 mb-4 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
+            <div class="flex gap-2">
+                <button onclick="handleAuth('login')" class="w-1/2 bg-zinc-800 hover:bg-zinc-700 text-white py-2 rounded">دخول</button>
+                <button onclick="handleAuth('signup')" class="w-1/2 bg-red-600 hover:bg-red-700 text-white py-2 rounded">حساب جديد</button>
+            </div>
+            <p id="auth-error" class="text-red-500 text-xs mt-3 hidden"></p>
         </div>
-        <span class="post-meta">0 replies</span>
-      </div>
+    </div>
 
-      <div class="post">
-        <div>
-          <h3>My first CTF challenge</h3>
-          <p>CTF</p>
+    <!-- نافذة إضافة موضوع جديد (Topic Modal) -->
+    <div id="topic-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-lg w-full max-w-lg relative">
+            <button onclick="closeTopicModal()" class="absolute top-3 left-3 text-zinc-500 hover:text-white">✕</button>
+            <h3 class="text-xl font-bold text-white mb-4">كتابة موضوع جديد</h3>
+            
+            <input type="text" id="topic-title" placeholder="عنوان الموضوع" class="w-full p-2.5 mb-3 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
+            
+            <select id="topic-category" class="w-full p-2.5 mb-3 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600">
+                <!-- تحميل الأقسام داخل القائمة -->
+            </select>
+            
+            <textarea id="topic-content" rows="5" placeholder="محتوى الموضوع..." class="w-full p-2.5 mb-4 bg-zinc-800 text-white rounded border border-zinc-700 focus:outline-none focus:border-red-600"></textarea>
+            
+            <div class="flex justify-end gap-2">
+                <button onclick="closeTopicModal()" class="px-4 py-2 text-zinc-400 hover:text-white">إلغاء</button>
+                <button onclick="submitNewTopic()" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-bold">نشر الموضوع</button>
+            </div>
         </div>
-        <span class="post-meta">0 replies</span>
-      </div>
-
     </div>
 
-  </section>
-
-  <section id="ctf">
-
-    <div class="ctf">
-
-      <div>
-        <h2>🔥 0xCrack CTF Arena</h2>
-        <p>
-          Practice cybersecurity skills through legal,
-          isolated and educational challenges.
-        </p>
-      </div>
-
-      <button class="btn btn-red" onclick="alert('CTF Arena coming soon!')">
-        Enter CTF
-      </button>
-
-    </div>
-
-  </section>
-
-</main>
-
-<footer>
-  <p>© 2026 0xCrack — Cybersecurity Community</p>
-  <p style="margin-top:8px;">Learn • Secure • Build</p>
-</footer>
-
-
-<!-- LOGIN MODAL -->
-
-<div class="modal" id="loginModal">
-
-  <div class="modal-box">
-
-    <button class="close" onclick="closeModals()">×</button>
-
-    <h2>Welcome Back</h2>
-    <p>Login to your 0xCrack account.</p>
-
-    <form onsubmit="login(event)">
-
-      <div class="field">
-        <label>Email</label>
-        <input id="loginEmail" type="email" required>
-      </div>
-
-      <div class="field">
-        <label>Password</label>
-        <input id="loginPassword" type="password" required>
-      </div>
-
-      <button class="form-btn" type="submit">
-        Login
-      </button>
-
-    </form>
-
-    <div class="message" id="loginMessage"></div>
-
-    <div class="switch">
-      Don't have an account?
-      <button onclick="openRegister()">Register</button>
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- REGISTER MODAL -->
-
-<div class="modal" id="registerModal">
-
-  <div class="modal-box">
-
-    <button class="close" onclick="closeModals()">×</button>
-
-    <h2>Create Account</h2>
-    <p>Join the 0xCrack community.</p>
-
-    <form onsubmit="register(event)">
-
-      <div class="field">
-        <label>Email</label>
-        <input id="registerEmail" type="email" required>
-      </div>
-
-      <div class="field">
-        <label>Password</label>
-        <input id="registerPassword" type="password" minlength="6" required>
-      </div>
-
-      <button class="form-btn" type="submit">
-        Create Account
-      </button>
-
-    </form>
-
-    <div class="message" id="registerMessage"></div>
-
-    <div class="switch">
-      Already have an account?
-      <button onclick="openLogin()">Login</button>
-    </div>
-
-  </div>
-
-</div>
-
-
-<script>
-
-  /* =========================
-     SUPABASE CONNECTION
-  ========================= */
-
-  const SUPABASE_URL =
-    "https://lcdkvsoztwyuaiizndfl.supabase.co";
-
-  const SUPABASE_KEY =
-    "sb_publishable_hRQIGaC-5q8lhJnMZsWL3Q_B0v6IfDQ";
-
-  const supabaseClient =
-    supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
-
-  /* =========================
-     MODALS
-  ========================= */
-
-  function openLogin() {
-    closeModals();
-
-    document
-      .getElementById("loginModal")
-      .classList.add("active");
-  }
-
-  function openRegister() {
-    closeModals();
-
-    document
-      .getElementById("registerModal")
-      .classList.add("active");
-  }
-
-  function closeModals() {
-    document
-      .querySelectorAll(".modal")
-      .forEach(modal => {
-        modal.classList.remove("active");
-      });
-  }
-
-
-  /* =========================
-     REGISTER
-  ========================= */
-
-  async function register(event) {
-
-    event.preventDefault();
-
-    const email =
-      document.getElementById("registerEmail").value;
-
-    const password =
-      document.getElementById("registerPassword").value;
-
-    const message =
-      document.getElementById("registerMessage");
-
-    message.textContent = "Creating account...";
-
-    const { data, error } =
-      await supabaseClient.auth.signUp({
-        email: email,
-        password: password
-      });
-
-    if (error) {
-
-      message.textContent =
-        "Error: " + error.message;
-
-      return;
-    }
-
-    message.textContent =
-      "Account created! Check your email if confirmation is enabled.";
-
-  }
-
-
-  /* =========================
-     LOGIN
-  ========================= */
-
-  async function login(event) {
-
-    event.preventDefault();
-
-    const email =
-      document.getElementById("loginEmail").value;
-
-    const password =
-      document.getElementById("loginPassword").value;
-
-    const message =
-      document.getElementById("loginMessage");
-
-    message.textContent = "Logging in...";
-
-    const { data, error } =
-      await supabaseClient.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
-
-    if (error) {
-
-      message.textContent =
-        "Error: " + error.message;
-
-      return;
-    }
-
-    message.textContent = "Login successful!";
-
-    closeModals();
-
-    updateUserUI();
-
-  }
-
-
-  /* =========================
-     LOGOUT
-  ========================= */
-
-  async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    updateUserUI();
-
-  }
-
-
-  /* =========================
-     USER UI
-  ========================= */
-
-  async function updateUserUI() {
-
-    const {
-      data: { user }
-    } = await supabaseClient.auth.getUser();
-
-    const authButtons =
-      document.getElementById("authButtons");
-
-    const userBox =
-      document.getElementById("userBox");
-
-    const userEmail =
-      document.getElementById("userEmail");
-
-    if (user) {
-
-      authButtons.style.display = "none";
-
-      userBox.style.display = "flex";
-
-      userEmail.textContent =
-        user.email;
-
-    } else {
-
-      authButtons.style.display = "flex";
-
-      userBox.style.display = "none";
-
-      userEmail.textContent = "";
-
-    }
-
-  }
-
-
-  /* =========================
-     AUTH LISTENER
-  ========================= */
-
-  supabaseClient.auth.onAuthStateChange(
-    (event, session) => {
-
-      updateUserUI();
-
-    }
-  );
-
-
-  /* =========================
-     INITIAL CHECK
-  ========================= */
-
-  updateUserUI();
-
-
-  /* =========================
-     CLOSE MODAL BY BACKGROUND
-  ========================= */
-
-  document.querySelectorAll(".modal")
-    .forEach(modal => {
-
-      modal.addEventListener("click", function(event) {
-
-        if (event.target === modal) {
-          closeModals();
+    <script>
+        // إعداد اتصال Supabase (قم باستبدال المفاتيح الخاصة بك هنا)
+        const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
+        const SUPABASE_KEY = 'YOUR-ANON-KEY';
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // التهيئة عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', () => {
+            checkUserSession();
+            loadCategories();
+            loadTopics();
+        });
+
+        // فحص الجلسة وتسجيل الدخول
+        async function checkUserSession() {
+            const { data: { session } } = await _supabase.auth.getSession();
+            if (session) {
+                document.getElementById('auth-buttons').classList.add('hidden');
+                document.getElementById('user-info').classList.remove('hidden');
+                document.getElementById('user-email').innerText = session.user.email;
+            } else {
+                document.getElementById('auth-buttons').classList.remove('hidden');
+                document.getElementById('user-info').classList.add('hidden');
+            }
         }
 
-      });
+        // تسجيل الدخول أو إنشاء حساب
+        async function handleAuth(type) {
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            const errorElement = document.getElementById('auth-error');
+            errorElement.classList.add('hidden');
 
-    });
+            let res;
+            if (type === 'login') {
+                res = await _supabase.auth.signInWithPassword({ email, password });
+            } else {
+                res = await _supabase.auth.signUp({ email, password });
+            }
 
-</script>
+            if (res.error) {
+                errorElement.innerText = res.error.message;
+                errorElement.classList.remove('hidden');
+            } else {
+                toggleAuthModal();
+                checkUserSession();
+            }
+        }
 
+        async function logout() {
+            await _supabase.auth.signOut();
+            checkUserSession();
+        }
+
+        // تحميل الأقسام من قاعدة البيانات
+        async function loadCategories() {
+            const { data, error } = await _supabase.from('categories').select('*');
+            const container = document.getElementById('categories-container');
+            const select = document.getElementById('topic-category');
+            
+            if (error || !data.length) {
+                container.innerHTML = '<p class="text-zinc-500 col-span-3">لا توجد أقسام حتى الآن.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            select.innerHTML = '';
+
+            data.forEach(cat => {
+                container.innerHTML += `
+                    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded hover:border-red-600 cursor-pointer transition">
+                        <h3 class="font-bold text-white text-lg">${cat.name}</h3>
+                        <p class="text-zinc-400 text-sm mt-1">${cat.description || ''}</p>
+                    </div>
+                `;
+                select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
+            });
+        }
+
+        // تحميل المواضيع
+        async function loadTopics() {
+            const { data, error } = await _supabase.from('topics').select('*, categories(name)').order('created_at', { ascending: false });
+            const container = document.getElementById('topics-container');
+
+            if (error || !data.length) {
+                container.innerHTML = '<p class="text-zinc-500">لا توجد مواضيع مضافة بعد.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            data.forEach(topic => {
+                container.innerHTML += `
+                    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded hover:border-zinc-700 transition">
+                        <span class="text-xs bg-red-950 text-red-400 px-2 py-0.5 rounded">${topic.categories?.name || 'عام'}</span>
+                        <h3 class="font-bold text-white text-lg mt-2">${topic.title}</h3>
+                        <p class="text-zinc-400 text-sm mt-1 line-clamp-2">${topic.content}</p>
+                    </div>
+                `;
+            });
+        }
+
+        // إدارات النوافذ المنبثقة (Modals)
+        function toggleAuthModal() {
+            document.getElementById('auth-modal').classList.toggle('hidden');
+        }
+
+        function openTopicModal() {
+            document.getElementById('topic-modal').classList.remove('hidden');
+        }
+
+        function closeTopicModal() {
+            document.getElementById('topic-modal').classList.add('hidden');
+        }
+
+        // إرسال موضوع جديد إلى Supabase
+        async function submitNewTopic() {
+            const title = document.getElementById('topic-title').value;
+            const category_id = document.getElementById('topic-category').value;
+            const content = document.getElementById('topic-content').value;
+
+            const { data: { user } } = await _supabase.auth.getUser();
+
+            if (!user) {
+                alert('يرجى تسجيل الدخول أولاً!');
+                return;
+            }
+
+            if (!title || !content) {
+                alert('يرجى ملء جميع الحقول!');
+                return;
+            }
+
+            const { error } = await _supabase.from('topics').insert([
+                { title, category_id, content, user_id: user.id }
+            ]);
+
+            if (error) {
+                alert('حدث خطأ أثناء النشر: ' + error.message);
+            } else {
+                alert('تم نشر الموضوع بنجاح!');
+                document.getElementById('topic-title').value = '';
+                document.getElementById('topic-content').value = '';
+                closeTopicModal();
+                loadTopics();
+            }
+        }
+    </script>
 </body>
-  </html>
+</html>
