@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>HackZone — Cybersecurity Community</title>
-<meta name="description" content="HackZone cybersecurity and programming community">
+<title>0xCRACK — مجتمع الأمن السيبراني</title>
+<meta name="description" content="0xCRACK — مجتمع عربي للأمن السيبراني والبرمجة">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -35,8 +35,6 @@ a{
   text-decoration:none;
   color:inherit
 }
-
-/* HEADER */
 
 header{
   position:sticky;
@@ -87,8 +85,6 @@ header{
   background:#0b1611
 }
 
-/* BUTTON */
-
 .btn{
   border:1px solid #00ff88;
   background:#00ff88;
@@ -107,8 +103,6 @@ header{
   color:#00ff88
 }
 
-/* MAIN */
-
 main{
   max-width:1200px;
   margin:auto;
@@ -121,7 +115,7 @@ main{
   border:1px solid #183629;
   border-radius:16px;
   background:
-  radial-gradient(circle at 85% 20%,rgba(0,255,136,.10),transparent 35%),
+  radial-gradient(circle at 15% 20%,rgba(0,255,136,.10),transparent 35%),
   #09100d
 }
 
@@ -140,8 +134,6 @@ main{
   line-height:1.7;
   margin-bottom:22px
 }
-
-/* LAYOUT */
 
 .layout{
   display:grid;
@@ -168,8 +160,6 @@ main{
 .panel-title h2{
   font-size:17px
 }
-
-/* TOPICS */
 
 .topic{
   padding:20px;
@@ -203,11 +193,9 @@ main{
 .topic-meta{
   color:#60776d;
   font-size:12px;
-  text-align:right;
+  text-align:left;
   min-width:80px
 }
-
-/* SIDEBAR */
 
 .side-box{
   padding:20px;
@@ -258,8 +246,6 @@ main{
   font-size:12px
 }
 
-/* USER */
-
 #userArea{
   display:flex;
   align-items:center;
@@ -284,8 +270,6 @@ main{
   color:#00ff88;
   font-weight:bold
 }
-
-/* MODAL */
 
 .modal{
   position:fixed;
@@ -345,7 +329,8 @@ main{
   color:white;
   outline:none;
   padding:12px;
-  border-radius:8px
+  border-radius:8px;
+  direction:rtl
 }
 
 .formgroup input:focus,
@@ -364,12 +349,10 @@ main{
   margin-top:20px
 }
 
-/* TOAST */
-
 .toast{
   position:fixed;
   z-index:1000;
-  right:20px;
+  left:20px;
   bottom:20px;
   padding:14px 18px;
   background:#0a1711;
@@ -382,8 +365,6 @@ main{
 .toast.show{
   display:block
 }
-
-/* MOBILE */
 
 @media(max-width:800px){
 
@@ -404,7 +385,7 @@ main{
   }
 
   .topic-meta{
-    text-align:left
+    text-align:right
   }
 
   .user span{
@@ -422,17 +403,17 @@ main{
 <div class="nav">
 
 <a href="#" class="logo">
-<span>HACK</span>ZONE
+<span>0x</span>CRACK
 </a>
 
 <div class="navlinks">
 
 <button onclick="scrollTopics()">
-Forums
+المنتدى
 </button>
 
 <button onclick="openTopicModal()">
-New Topic
+موضوع جديد
 </button>
 
 </div>
@@ -440,7 +421,7 @@ New Topic
 <div id="userArea">
 
 <button class="btn secondary" onclick="openAuth()">
-Login
+تسجيل الدخول
 </button>
 
 </div>
@@ -455,17 +436,16 @@ Login
 <section class="hero">
 
 <h1>
-Welcome to <span class="green">HackZone</span>
+مرحباً بك في <span class="green">0xCRACK</span>
 </h1>
 
 <p>
-A community for cybersecurity, ethical hacking,
-programming, Linux, networking, privacy and
-web development.
+مجتمع عربي للأمن السيبراني، الاختبار الأخلاقي،
+البرمجة، Linux، الشبكات، الخصوصية وتطوير الويب.
 </p>
 
 <button class="btn" onclick="openTopicModal()">
-+ Create Topic
++ إنشاء موضوع
 </button>
 
 </section>
@@ -479,12 +459,12 @@ web development.
 <div class="panel-title">
 
 <h2>
-Latest Discussions
+أحدث النقاشات
 </h2>
 
 <button class="btn secondary"
 onclick="loadTopics()">
-Refresh
+تحديث
 </button>
 
 </div>
@@ -494,8 +474,8 @@ Refresh
 <div class="topic">
 
 <div>
-<h3>Loading discussions...</h3>
-<p>Connecting to Supabase...</p>
+<h3>جاري تحميل النقاشات...</h3>
+<p>يتم الاتصال بقاعدة البيانات...</p>
 </div>
 
 </div>
@@ -509,14 +489,14 @@ Refresh
 
 <div class="side-box">
 
-<h3>Categories</h3>
+<h3>الأقسام</h3>
 
 <div class="category">
-🛡 Cybersecurity
+🛡 الأمن السيبراني
 </div>
 
 <div class="category">
-💻 Programming
+💻 البرمجة
 </div>
 
 <div class="category">
@@ -524,15 +504,15 @@ Refresh
 </div>
 
 <div class="category">
-🌐 Networking
+🌐 الشبكات
 </div>
 
 <div class="category">
-⚡ Web Development
+⚡ تطوير الويب
 </div>
 
 <div class="category">
-🔐 Privacy
+🔐 الخصوصية
 </div>
 
 </div>
@@ -540,7 +520,7 @@ Refresh
 
 <div class="side-box">
 
-<h3>Community</h3>
+<h3>المجتمع</h3>
 
 <div class="stats">
 
@@ -551,7 +531,7 @@ Refresh
 </strong>
 
 <span>
-Topics
+المواضيع
 </span>
 
 </div>
@@ -563,7 +543,7 @@ Topics
 </strong>
 
 <span>
-Members
+الأعضاء
 </span>
 
 </div>
@@ -579,7 +559,7 @@ Members
 </main>
 
 
-<!-- LOGIN -->
+<!-- تسجيل الدخول -->
 
 <div class="modal" id="authModal">
 
@@ -588,7 +568,7 @@ Members
 <div class="modalhead">
 
 <h2 id="authTitle">
-Login
+تسجيل الدخول
 </h2>
 
 <button class="close"
@@ -602,7 +582,7 @@ onclick="closeModal('authModal')">
 <div class="formgroup">
 
 <label>
-Email
+البريد الإلكتروني
 </label>
 
 <input
@@ -617,7 +597,7 @@ placeholder="you@example.com"
 <div class="formgroup">
 
 <label>
-Password
+كلمة المرور
 </label>
 
 <input
@@ -633,13 +613,13 @@ placeholder="••••••••"
 
 <button class="btn"
 onclick="handleAuth()">
-Continue
+متابعة
 </button>
 
 <button class="btn secondary"
 id="toggleAuth"
 onclick="toggleAuthMode()">
-Create account
+إنشاء حساب
 </button>
 
 </div>
@@ -649,7 +629,7 @@ Create account
 </div>
 
 
-<!-- NEW TOPIC -->
+<!-- موضوع جديد -->
 
 <div class="modal" id="topicModal">
 
@@ -658,7 +638,7 @@ Create account
 <div class="modalhead">
 
 <h2>
-Create Topic
+إنشاء موضوع
 </h2>
 
 <button class="close"
@@ -672,14 +652,14 @@ onclick="closeModal('topicModal')">
 <div class="formgroup">
 
 <label>
-Title
+عنوان الموضوع
 </label>
 
 <input
 id="topicTitle"
 type="text"
 maxlength="150"
-placeholder="Enter topic title"
+placeholder="اكتب عنوان الموضوع"
 >
 
 </div>
@@ -688,12 +668,12 @@ placeholder="Enter topic title"
 <div class="formgroup">
 
 <label>
-Content
+المحتوى
 </label>
 
 <textarea
 id="topicContent"
-placeholder="Write your discussion..."
+placeholder="اكتب محتوى النقاش..."
 ></textarea>
 
 </div>
@@ -703,12 +683,12 @@ placeholder="Write your discussion..."
 
 <button class="btn"
 onclick="createTopic()">
-Publish
+نشر
 </button>
 
 <button class="btn secondary"
 onclick="closeModal('topicModal')">
-Cancel
+إلغاء
 </button>
 
 </div>
@@ -723,10 +703,6 @@ Cancel
 
 <script>
 
-/* ==========================================
-   SUPABASE
-========================================== */
-
 const SUPABASE_URL =
 "https://lcdkvsoztwyuaiizndfl.supabase.co";
 
@@ -739,17 +715,8 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
-
-/* ==========================================
-   STATE
-========================================== */
-
 let authMode = "login";
 
-
-/* ==========================================
-   HELPERS
-========================================== */
 
 function escapeHtml(value){
 
@@ -827,10 +794,6 @@ behavior:"smooth"
 }
 
 
-/* ==========================================
-   AUTH MODE
-========================================== */
-
 function toggleAuthMode(){
 
 if(authMode === "login"){
@@ -840,12 +803,12 @@ authMode = "signup";
 document.getElementById(
 "authTitle"
 ).textContent =
-"Create account";
+"إنشاء حساب";
 
 document.getElementById(
 "toggleAuth"
 ).textContent =
-"I already have an account";
+"لدي حساب بالفعل";
 
 }else{
 
@@ -854,21 +817,17 @@ authMode = "login";
 document.getElementById(
 "authTitle"
 ).textContent =
-"Login";
+"تسجيل الدخول";
 
 document.getElementById(
 "toggleAuth"
 ).textContent =
-"Create account";
+"إنشاء حساب";
 
 }
 
 }
 
-
-/* ==========================================
-   AUTH
-========================================== */
 
 async function handleAuth(){
 
@@ -887,7 +846,7 @@ document
 if(!email || !password){
 
 showToast(
-"Enter email and password."
+"أدخل البريد الإلكتروني وكلمة المرور."
 );
 
 return;
@@ -937,13 +896,13 @@ return;
 if(authMode === "signup"){
 
 showToast(
-"Account created successfully."
+"تم إنشاء الحساب بنجاح."
 );
 
 }else{
 
 showToast(
-"Login successful."
+"تم تسجيل الدخول بنجاح."
 );
 
 }
@@ -957,10 +916,6 @@ loadTopics();
 
 }
 
-
-/* ==========================================
-   USER UI
-========================================== */
 
 async function updateUserUI(){
 
@@ -983,7 +938,7 @@ area.innerHTML = `
 <button
 class="btn secondary"
 onclick="openAuth()">
-Login
+تسجيل الدخول
 </button>
 
 `;
@@ -994,7 +949,7 @@ return;
 
 
 const email =
-user.email || "User";
+user.email || "مستخدم";
 
 const letter =
 email.charAt(0).toUpperCase();
@@ -1015,7 +970,7 @@ ${escapeHtml(email)}
 <button
 class="btn secondary"
 onclick="logout()">
-Logout
+خروج
 </button>
 
 </div>
@@ -1025,26 +980,18 @@ Logout
 }
 
 
-/* ==========================================
-   LOGOUT
-========================================== */
-
 async function logout(){
 
 await db.auth.signOut();
 
 showToast(
-"Logged out."
+"تم تسجيل الخروج."
 );
 
 updateUserUI();
 
 }
 
-
-/* ==========================================
-   NEW TOPIC MODAL
-========================================== */
 
 async function openTopicModal(){
 
@@ -1054,7 +1001,7 @@ await db.auth.getUser();
 if(!result.data.user){
 
 showToast(
-"Please login first."
+"يجب تسجيل الدخول أولاً."
 );
 
 openAuth();
@@ -1067,10 +1014,6 @@ openModal("topicModal");
 
 }
 
-
-/* ==========================================
-   LOAD TOPICS
-========================================== */
 
 async function loadTopics(){
 
@@ -1085,11 +1028,11 @@ container.innerHTML = `
 <div>
 
 <h3>
-Loading...
+جاري التحميل...
 </h3>
 
 <p>
-Getting discussions from Supabase.
+يتم جلب النقاشات من قاعدة البيانات.
 </p>
 
 </div>
@@ -1125,12 +1068,11 @@ container.innerHTML = `
 <div>
 
 <h3>
-No topics available
+لا توجد مواضيع
 </h3>
 
 <p>
-Check that your Supabase
-topics table exists.
+تأكد من وجود جدول topics في Supabase.
 </p>
 
 </div>
@@ -1157,11 +1099,11 @@ container.innerHTML = `
 <div>
 
 <h3>
-No discussions yet
+لا توجد نقاشات بعد
 </h3>
 
 <p>
-Create the first topic.
+كن أول من ينشئ موضوعاً.
 </p>
 
 </div>
@@ -1192,7 +1134,7 @@ const date =
 topic.created_at
 ? new Date(
 topic.created_at
-).toLocaleDateString()
+).toLocaleDateString("ar-DZ")
 : "";
 
 
@@ -1207,7 +1149,7 @@ onclick="viewTopic('${escapeHtml(topic.id)}')">
 <h3>
 ${escapeHtml(
 topic.title ||
-"Untitled topic"
+"موضوع بدون عنوان"
 )}
 </h3>
 
@@ -1231,7 +1173,7 @@ ${escapeHtml(date)}
 <br>
 
 <div>
-Discussion
+نقاش
 </div>
 
 </div>
@@ -1244,10 +1186,6 @@ Discussion
 
 }
 
-
-/* ==========================================
-   CREATE TOPIC
-========================================== */
 
 async function createTopic(){
 
@@ -1267,7 +1205,7 @@ document
 if(!title || !content){
 
 showToast(
-"Title and content are required."
+"العنوان والمحتوى مطلوبان."
 );
 
 return;
@@ -1285,7 +1223,7 @@ resultUser.data.user;
 if(!user){
 
 showToast(
-"Please login first."
+"يجب تسجيل الدخول أولاً."
 );
 
 closeModal("topicModal");
@@ -1341,7 +1279,7 @@ closeModal(
 
 
 showToast(
-"Topic published successfully!"
+"تم نشر الموضوع بنجاح!"
 );
 
 
@@ -1349,10 +1287,6 @@ loadTopics();
 
 }
 
-
-/* ==========================================
-   VIEW TOPIC
-========================================== */
 
 async function viewTopic(id){
 
@@ -1367,7 +1301,7 @@ await db
 if(result.error){
 
 showToast(
-"Could not open topic."
+"تعذر فتح الموضوع."
 );
 
 return;
@@ -1387,10 +1321,6 @@ topic.content
 
 }
 
-
-/* ==========================================
-   USER COUNT
-========================================== */
 
 async function loadUserCount(){
 
@@ -1419,10 +1349,6 @@ result.count;
 }
 
 
-/* ==========================================
-   AUTH STATE
-========================================== */
-
 db.auth.onAuthStateChange(
 function(){
 
@@ -1431,10 +1357,6 @@ updateUserUI();
 }
 );
 
-
-/* ==========================================
-   START
-========================================== */
 
 document.addEventListener(
 "DOMContentLoaded",
