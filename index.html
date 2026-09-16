@@ -1246,12 +1246,323 @@ async function loadTopics() {
     card.appendChild(title);
     card.appendChild(preview);
     card.appendChild(meta);
+card.onclick = function() {
+  openTopic(topic.id);
+};
 
-    card.onclick =
-      function() {
+container.appendChild(card);
 
-        openTopic(topic.id);
+  });
+}
 
-      };
 
-    container.ap
+/* =========================================
+   CATEGORY PAGE
+========================================= */
+
+async function openCategory(categoryId, name, description) {
+
+  currentCategoryId = categoryId;
+
+  document.getElementById("home").style.display = "none";
+  document.getElementById("topicPage").style.display = "none";
+  document.getElementById("categoryPage").style.display = "block";
+
+  document.getElementById("categoryTitle").textContent = name;
+  document.getElementById("categoryDescription").textContent =
+    description || "نقاشات هذا القسم";
+
+  await loadCategoryTopics(categoryId);
+}
+
+
+/* =========================================
+   CATEGORY TOPICS
+========================================= */
+
+async function loadCategoryTopics(categoryId) {
+
+  const container =
+    document.getElementById("categoryTopics");
+
+  container.innerHTML =
+    '<div class="empty">جاري تحميل النقاشات...</div>';
+
+  const { data, error } = await db
+    .from("topics")
+    .select("id,title,content,created_at,category_id")
+    .eq("category_id", categoryId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("CATEGORY TOPICS ERROR:", error);
+
+    container.innerHTML =
+      '<div class="empty">تعذر تحميل النقاشات.</div>';
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div class="empty">لا توجد نقاشات في هذا القسم.</div>';
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(function(topic) {
+
+    const card = document.createElement("div");
+    card.className = "topic-card";
+
+    const title = document.createElement("h3");
+    title.textContent = topic.title;
+
+    const preview = document.createElement("div");
+    preview.className = "topic-preview";
+    preview.textContent = getPreview(topic.content);
+
+    const meta = document.createElement("div");
+    meta.className = "topic-meta";
+    meta.textContent = formatDate(topic.created_at);
+
+    card.appendChild(title);
+    card.appendChild(preview);
+    card.appendChild(meta);
+
+    card.onclick = function() {
+      openTopic(topic.id);
+    };
+
+    container.appendChild(card);
+  });
+}
+
+
+/* =========================================
+   TOPIC PAGE
+========================================= */
+
+async function openTopic(topicId) {
+
+  currentTopicId = topicId;
+
+  document.getElementById("home").style.display = "none";
+  document.getElementById("categoryPage").style.display = "none";
+  document.getElementById("topicPage").style.display = "block";
+
+  const { data, error } = await db
+    .from("topics")
+    .select("id,title,content,created_at,category_id")
+    .eq("id", topicId)
+    .single();
+
+  if (error) {
+    console.error("TOPIC ERROR:", error);
+    showToast("تعذر تحميل الموضوع.");
+    return;
+  }
+
+  document.getElementById("singleTopicTitle").textContent =
+    data.title;
+
+  document.getElementById("singleTopicContent").textContent =
+    data.content;
+
+  document.getElementById("singleTopicDate").textContent =
+    formatDate(data.created_at);
+
+  currentCategoryId = data.category_id;
+
+  await loadReplies(topicId);
+}
+
+
+/* =========================================
+   REPLIES
+========================================= */
+
+async function loadReplies(topicId) {
+
+  const container =
+    document.getElementById("repliesList");
+
+  container.innerHTML =
+    '<div class="empty">جاري تحميل الردود...</div>';
+
+  const { data, error } = await db
+    .from("replies")
+    .select("id,user_id,content,created_at")
+    .eq("topic_id", topicId)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    console.error("REPLIES ERROR:", error);
+
+    container.innerHTML =
+      '<div class="empty">تعذر تحميل الردود.</div>';
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    container.innerHTML =
+      '<div class="empty">لا توجد ردود بعد.</div>';
+
+    return;
+  }
+
+  container.innerHTML = "";
+
+  data.forEach(function(reply) {
+
+    const card = document.createElement("div");
+    card.className = "reply-card";
+
+    const content = document.createElement("div");
+    content.className = "reply-content";
+    content.textContent = reply.content;
+
+    const date = document.createElement("small");
+    date.className = "reply-date";
+    date.textContent = formatDate(reply.created_at);
+
+    card.appendChild(content);
+    card.appendChild(date);
+
+    container.appendChild(card);
+  });
+}
+
+
+/* =========================================
+   CREATE REPLY
+========================================= */
+
+async function createReply() {
+
+  const {
+    data: { user }
+  } = await db.auth.getUser();
+
+  if (!user) {
+    showToast("يجب تسجيل الدخول أولاً.");
+    openAuthModal();
+    return;
+  }
+
+  const content =
+    document.getElementById("replyContent").value.trim();
+
+  if (!content) {
+    showToast("اكتب الرد أولاً.");
+    return;
+  }
+
+  const { error } = await db
+    .from("replies")
+    .insert({
+      topic_id: currentTopicId,
+      user_id: user.id,
+      content: content
+    });
+
+  if (error) {
+    console.error("CREATE REPLY ERROR:", error);
+    showToast("تعذر نشر الرد: " + error.message);
+    return;
+  }
+
+  document.getElementById("replyContent").value = "";
+
+  showToast("تم نشر الرد ✅");
+
+  await loadReplies(currentTopicId);
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+function showHome() {
+
+  document.getElementById("home").style.display = "block";
+  document.getElementById("categoryPage").style.display = "none";
+  document.getElementById("topicPage").style.display = "none";
+
+  currentCategoryId = null;
+  currentTopicId = null;
+
+  loadTopics();
+}
+
+
+function backToCategory() {
+
+  if (currentCategoryId) {
+
+    document.getElementById("home").style.display = "none";
+    document.getElementById("topicPage").style.display = "none";
+    document.getElementById("categoryPage").style.display = "block";
+
+    loadCategoryTopics(currentCategoryId);
+
+  } else {
+
+    showHome();
+
+  }
+}
+
+
+/* =========================================
+   HELPERS
+========================================= */
+
+function getPreview(text) {
+
+  if (!text) return "";
+
+  return text.length > 160
+    ? text.substring(0, 160) + "..."
+    : text;
+}
+
+
+function formatDate(date) {
+
+  if (!date) return "";
+
+  return new Date(date).toLocaleString("ar-DZ");
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+document.addEventListener("DOMContentLoaded", async function() {
+
+  console.log("0xCRACK بدأ التشغيل...");
+
+  try {
+
+    await updateUserUI();
+    await loadCategories();
+    await loadTopics();
+
+  } catch (error) {
+
+    console.error("START ERROR:", error);
+
+    showToast("حدث خطأ أثناء تشغيل الموقع.");
+  }
+
+});
+</script>
+
+</body>
+</html>
